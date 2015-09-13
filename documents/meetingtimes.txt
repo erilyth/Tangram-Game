@@ -1,11 +1,16 @@
 Meet: 1
-Date:
+Date: August 12th
 Synopsis:
+ 	1. Introduction with client 
+	2. Introduction to project
 Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Gogol Das
 Duration: 2 hr
 
+
 Meet: 2
-Date:
-Synopsis:
+Date: August 20th
+Synopsis:	
+	1.All the software related to the project is introduced
+	2.We were asked to install the required software and get the system set
 Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Gogol Das
 Duration: 1 hr
