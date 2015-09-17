@@ -1,16 +1,55 @@
 Meet: 1
 Date: August 12th
-Synopsis:
+Discussion:
  	1. Introduction with client 
 	2. Introduction to project
-Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
 Duration: 2 hr
 
+*******************************************************************************************
 
 Meet: 2
 Date: August 20th
-Synopsis:	
+Discussion:	
 	1.All the software related to the project is introduced
 	2.We were asked to install the required software and get the system set
-Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Action Poins:
+	1.Make sure the software is compatible and works as desired.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
 Duration: 1 hr
+
+*******************************************************************************************
+
+Meet: 3
+Date: September 1st
+Discussion:
+	1.Ideas and insight on Tic-Tac-Toe game.
+	2.Implementation of the Tic-Tac-Toe game.
+Action Points:
+	1.Get started on making the game in cocos-studio.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Duration: 2 hr
+
+*******************************************************************************************
+
+Meet: 4
+Date: August 27th
+Discussion:
+	1.Doubts and Clarifications about the Tic-Tac-Toe game
+Action Points:
+Members: Client, Nikhil Tadigopula, Syamantak Das
+Duration: 1 hr
+
+*******************************************************************************************
+
+Meet: 5
+Date: September 15th
+Discussion:
+	1.Access to actual 'Block Puzzle' game at the current stage of development.
+	2.What the game is meant to be and details about the game.
+Action Points:
+	1.Get started with making class diagrams for the main screen of the game.
+Members: Client, Raghu Ram, Vishal Batchu
+Duration: 1 hr
+
+*******************************************************************************************
