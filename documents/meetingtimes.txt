@@ -53,3 +53,37 @@ Members: Client, Raghu Ram, Vishal Batchu
 Duration: 1 hr
 
 *******************************************************************************************
+Meet: 6
+Date: September 25th
+Discussion:
+	1.Showed the design diagrams we made.
+	2.Talked about how improvements can be made to the design.
+Action Points:
+	1.Start detailing the design while improving it wherever needed.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 2 hr
+
+*********************************************************************************************
+
+Meet: 7
+Date: October 4th
+Discussion:
+	1.Showed our updated class diagrams and designs for the game.
+	2.Started designing the levels and modes as well apart from just the game.
+Action Points:
+	1.Give more information in each class and how they communicate with each other.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 3 hr
+
+***********************************************************************************************
+
+Meet: 8
+Date: October 5th
+Discussion:
+	1.What and how we need to present for R1, and finalized a few designs.
+Action Points:
+	1.Make a presentation for R1 and also update the design pdf.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 4 hr
+
+************************************************************************************************
