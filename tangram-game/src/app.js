@@ -3,9 +3,11 @@ var Piece= cc.Class.extend({
 	blockWidth:50,
 	basePositionX:0,
 	basePositionY:0,
-	ctor:function(x,y){
+	pieceNumber:0,
+	ctor:function(x,y,pieceNo){
 		this.basePositionX=x;
 		this.basePositionY=y;
+		this.pieceNumber=pieceNo;
 		// Custom initialization
 	},
 	positionarr:[],
@@ -39,13 +41,6 @@ var Piece= cc.Class.extend({
 		//x axis is rows and y axis is columns.
 		//cc.log(a);
 		//cc.log(b);
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
-				if(this.positionarr[i][j]==1){
-					boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=0;
-				}
-			}
-		}
 		var state=0;
 		for(i=0;i<3;i++){
 			for(j=0;j<3;j++){
@@ -57,20 +52,16 @@ var Piece= cc.Class.extend({
 					state=1;
 				else if(j+b>=15)
 					state=1;
-				else if(boardObj.positionarr[i+a][j+b]==1 && this.positionarr[i][j]==1){
+				else if(boardObj.positionarr[i+a][j+b]!=-1 && boardObj.positionarr[i+a][j+b]!=this.pieceNumber && this.positionarr[i][j]==1){
 					state=1;
+					cc.log("FAILED to PLACE");
 				}
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
-				if(this.positionarr[i][j]==1){
-					boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=1;
-				}
-			}
-		}
-		if(state==0)
+		if(state==0){
+			cc.log("SUCCESS");
 			return 1;
+		}
 		else
 			return 0;
 	},
@@ -79,7 +70,7 @@ var Piece= cc.Class.extend({
 			for(i=0;i<3;i++){
 				for(j=0;j<3;j++){
 					if(this.positionarr[i][j]==1){
-						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=0;
+						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=-1;
 					}
 				}
 			}
@@ -90,7 +81,7 @@ var Piece= cc.Class.extend({
 					if(this.positionarr[i][j]==1){
 						var actionMove = cc.MoveTo.create(0.3, cc.p(this.blockWidth*(i+this.basePositionX),this.blockWidth*(j+this.basePositionY)));
 						this.spriteBlocks[i][j].runAction(actionMove);
-						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.positionarr[i][j];
+						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
 					}
 				}
 			}
@@ -116,7 +107,7 @@ var Board = cc.Class.extend({
 			this.positionarr[i]=new Array(15);
 			for(j=0;j<15;j++){
 				this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Board_png);
-				this.positionarr[i][j]=0;
+				this.positionarr[i][j]=-1;
 				this.spriteBlocks[i][j].setPosition(new cc.p(50*i,50*j));
 				this.spriteBlocks[i][j].setScale(50/this.spriteBlocks[i][j].getContentSize().width,50/this.spriteBlocks[i][j].getContentSize().height);
 				this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
@@ -141,8 +132,10 @@ var HelloWorldLayer = cc.Layer.extend({
         //(0,0) is the bottom left point.
         var board = new Board();
         //var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
-        var piece = new Piece(0,0);
-        var piece2 = new Piece(5,5);
+        var pieceList = new Array(5);
+        var noOfPieces=2;
+        var piece = new Piece(0,0,0);
+        var piece2 = new Piece(5,5,1);
         var arr=new Array(3);
         var arr2=new Array(3);
         for(i=0;i<3;i++){
@@ -156,7 +149,9 @@ var HelloWorldLayer = cc.Layer.extend({
         arr[1][1]=1;
         arr[2][2]=1;
         piece.initpositionarr(arr);
-        //piece2.initpositionarr(arr2);
+        piece2.initpositionarr(arr2);
+        pieceList[0]=piece;
+        pieceList[1]=piece2;
         for(i=0;i<15;i++){
         	for(j=0;j<15;j++){
         		this.addChild(board.spriteBlocks[i][j]);
@@ -164,12 +159,11 @@ var HelloWorldLayer = cc.Layer.extend({
         }
         for(i=0;i<3;i++){
         	for(j=0;j<3;j++){
-        		if(piece.positionarr[i][j]==1){
-        			this.addChild(piece.spriteBlocks[i][j]);
+        		for(k=0;k<noOfPieces;k++){
+	        		if(pieceList[k].positionarr[i][j]==1){
+	        			this.addChild(pieceList[k].spriteBlocks[i][j]);
+	        		}
         		}
-        		//if(piece2.positionarr[i][j]==1){
-        		//	this.addChild(piece2.spriteBlocks[i][j]);
-        		//}
         	}
         }
         //var actionmove = cc.MoveTo.create(1, cc.p(300,300));
@@ -181,7 +175,7 @@ var HelloWorldLayer = cc.Layer.extend({
         var clickOffsetYBlock=0;
         var originalBaseX=0;
         var originalBaseY=0;
-        var pieceSelected=0;
+        var pieceSelected=-1;
         
         if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
         	cc.eventManager.addListener(
@@ -189,38 +183,42 @@ var HelloWorldLayer = cc.Layer.extend({
         				event: cc.EventListener.MOUSE,
         				onMouseDown:function(event){
         					if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-        						originalBaseX=piece.basePositionX;
-        						originalBaseY=piece.basePositionY;
-        						//cc.log(event.getLocationX());
-        						clickOffsetXBlock=0;
-        						clickOffsetYBlock=0;
-        						var click=cc.p(event.getLocationX(),event.getLocationY());
-        						var x=Math.floor((event.getLocationX())/50);
-        						var y=Math.floor((event.getLocationY())/50);
-        						//cc.log(x + " " + y + " Clicked at")
-        						for(i=0;i<3;i++){
-        							for(j=0;j<3;j++){
-        								if(piece.positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((piece.basePositionX+i)*50,(piece.basePositionY+j)*50,50,50),click)){
-        									pieceSelected=1;
-        									clickOffsetXBlock=i;
-        									clickOffsetYBlock=j;
-        								}
+        						for(k=0;k<noOfPieces;k++){
+	        						//cc.log(event.getLocationX());
+        							if(pieceSelected==-1){
+        								clickOffsetXBlock=0;
+        								clickOffsetYBlock=0;
         							}
-        						}
-        						//cc.log("Left mouse clicked at "+event.getLocationX());
+	        						var click=cc.p(event.getLocationX(),event.getLocationY());
+	        						var x=Math.floor((event.getLocationX())/50);
+	        						var y=Math.floor((event.getLocationY())/50);
+	        						//cc.log(x + " " + y + " Clicked at")
+	        						for(i=0;i<3;i++){
+	        							for(j=0;j<3;j++){
+	        								if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*50,(pieceList[k].basePositionY+j)*50,50,50),click)){
+	        									originalBaseX=pieceList[k].basePositionX;
+	        									originalBaseY=pieceList[k].basePositionY;
+	        									pieceSelected=k;
+	        									clickOffsetXBlock=i;
+	        									clickOffsetYBlock=j;
+	        								}
+	        							}
+	        						}
+	        						//cc.log("Left mouse clicked at "+event.getLocationX());
+	        					}
         					}
         				},
         				onMouseMove: function (event) {         
         					//Move the position of current button sprite
-        					if(pieceSelected==1){
+        					if(pieceSelected!=-1){
         						for(i=0;i<3;i++){
         							for(j=0;j<3;j++){
-        								if(piece.positionarr[i][j]==1){
-        									var target=piece.spriteBlocks[i][j].getPosition();
+        								if(pieceList[pieceSelected].positionarr[i][j]==1){
+        									var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
         									var delta = event.getDelta();
         									target.x += delta.x;
         									target.y += delta.y;
-        									piece.spriteBlocks[i][j].setPosition(target);
+        									pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
         								}
         							}
         						}
@@ -228,18 +226,18 @@ var HelloWorldLayer = cc.Layer.extend({
         				},
         				onMouseUp:function(event){
         					if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-        						if(pieceSelected==1){
-	        						pieceSelected=0;
+        						if(pieceSelected!=-1){
 	        						var click2=cc.p(event.getLocationX(),event.getLocationY());
 	        						var x=Math.floor((event.getLocationX())/50);
 	        						var y=Math.floor((event.getLocationY())/50);
 	        						cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
-	        						if(piece.checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
-	        							piece.placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+	        						if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
+	        							pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
 	        						}
 	        						else{
-	        							piece.placePiece(originalBaseX,originalBaseY,board);
+	        							pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
 	        						}
+	        						pieceSelected=-1;
         						}
         						//cc.log("Left mouse released at "+event.getLocationX());
         					}
