@@ -1,10 +1,10 @@
-//BlockWidth is 50 and in other places its directly coded as 50.
+//BlockWidth is 20 and in other places its directly coded as 20.
 //Board currently has 15 rows and 15 columns where the victory area is a 4x3 rectangle.
 //There are 2 pieces currently.
 
 var Piece= cc.Class.extend({
 	color:"blue",
-	blockWidth:50,
+	blockWidth:20,
 	basePositionX:0,
 	basePositionY:0,
 	pieceNumber:0,
@@ -27,7 +27,7 @@ var Piece= cc.Class.extend({
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
 					this.positionarr[i][j]=1;
 					this.spriteBlocks[i][j].setPosition(new cc.Point(this.blockWidth*(i+this.basePositionY),this.blockWidth*(j+this.basePositionX)));
-					this.spriteBlocks[i][j].setScale(50/this.spriteBlocks[i][j].getContentSize().width,50/this.spriteBlocks[i][j].getContentSize().height);	
+					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
 					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 				}
 				else
@@ -121,8 +121,8 @@ var Board = cc.Class.extend({
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Board_png);
 				}
 				this.positionarr[i][j]=-1;
-				this.spriteBlocks[i][j].setPosition(new cc.p(50*i,50*j));
-				this.spriteBlocks[i][j].setScale(50/this.spriteBlocks[i][j].getContentSize().width,50/this.spriteBlocks[i][j].getContentSize().height);
+				this.spriteBlocks[i][j].setPosition(new cc.p(20*i,20*j));
+				this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);
 				this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 			}
 		}
@@ -217,12 +217,12 @@ var HelloWorldLayer = cc.Layer.extend({
         								clickOffsetYBlock=0;
         							}
 	        						var click=cc.p(event.getLocationX(),event.getLocationY());
-	        						var x=Math.floor((event.getLocationX())/50);
-	        						var y=Math.floor((event.getLocationY())/50);
+	        						var x=Math.floor((event.getLocationX())/20);
+	        						var y=Math.floor((event.getLocationY())/20);
 	        						//cc.log(x + " " + y + " Clicked at")
 	        						for(i=0;i<3;i++){
 	        							for(j=0;j<3;j++){
-	        								if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*50,(pieceList[k].basePositionY+j)*50,50,50),click)){
+	        								if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*20,(pieceList[k].basePositionY+j)*20,20,20),click)){
 	        									originalBaseX=pieceList[k].basePositionX;
 	        									originalBaseY=pieceList[k].basePositionY;
 	        									pieceSelected=k;
@@ -255,8 +255,8 @@ var HelloWorldLayer = cc.Layer.extend({
         					if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
         						if(pieceSelected!=-1){
 	        						var click2=cc.p(event.getLocationX(),event.getLocationY());
-	        						var x=Math.floor((event.getLocationX())/50);
-	        						var y=Math.floor((event.getLocationY())/50);
+	        						var x=Math.floor((event.getLocationX())/20);
+	        						var y=Math.floor((event.getLocationY())/20);
 	        						cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
 	        						if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
 	        							pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
