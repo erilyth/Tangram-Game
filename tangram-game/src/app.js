@@ -1,3 +1,7 @@
+//BlockWidth is 50 and in other places its directly coded as 50.
+//Board currently has 15 rows and 15 columns where the victory area is a 4x3 rectangle.
+//There are 2 pieces currently.
+
 var Piece= cc.Class.extend({
 	color:"blue",
 	blockWidth:50,
@@ -39,6 +43,10 @@ var Piece= cc.Class.extend({
 	},
 	checkPiece:function(a,b,boardObj){ //a=x and b=y coordinates so arr[a][b] would be how we check
 		//x axis is rows and y axis is columns.
+		
+		//Rows are vertical 
+		//Columns are horizontal
+		
 		//cc.log(a);
 		//cc.log(b);
 		var state=0;
@@ -106,7 +114,12 @@ var Board = cc.Class.extend({
 			this.spriteBlocks[i]= new Array(15);
 			this.positionarr[i]=new Array(15);
 			for(j=0;j<15;j++){
-				this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Board_png);
+				if(i>=4 && i<8 && j>=4 && j<7){
+					this.spriteBlocks[i][j]= new cc.Sprite.create(res.PlaceBoard_png);
+				}
+				else{
+					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Board_png);
+				}
 				this.positionarr[i][j]=-1;
 				this.spriteBlocks[i][j].setPosition(new cc.p(50*i,50*j));
 				this.spriteBlocks[i][j].setScale(50/this.spriteBlocks[i][j].getContentSize().width,50/this.spriteBlocks[i][j].getContentSize().height);
@@ -114,6 +127,16 @@ var Board = cc.Class.extend({
 			}
 		}
 	},
+	checkVictory:function(){
+		for(i=4;i<8;i++){
+			for(j=4;j<7;j++){
+				if(this.positionarr[i][j]==-1){
+					return 0;
+				}
+			}
+		}
+		return 1;
+	}
 //add your properties and functions
 });
 
@@ -134,8 +157,9 @@ var HelloWorldLayer = cc.Layer.extend({
         //var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
         var pieceList = new Array(5);
         var noOfPieces=2;
-        var piece = new Piece(0,0,0);
-        var piece2 = new Piece(5,5,1);
+        var piece = new Piece(1,0,0);
+        var piece2 = new Piece(10,5,1);
+        //var piece3 = new Piece(7,1,2);
         var arr=new Array(3);
         var arr2=new Array(3);
         for(i=0;i<3;i++){
@@ -146,8 +170,8 @@ var HelloWorldLayer = cc.Layer.extend({
         	}
         }
         arr[0][0]=1;
-        arr[1][1]=1;
-        arr[2][2]=1;
+        arr[0][1]=1;
+        arr[0][2]=1;
         piece.initpositionarr(arr);
         piece2.initpositionarr(arr2);
         pieceList[0]=piece;
@@ -165,6 +189,9 @@ var HelloWorldLayer = cc.Layer.extend({
 	        		}
         		}
         	}
+        }
+        for(k=0;k<noOfPieces;k++){
+        	pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
         }
         //var actionmove = cc.MoveTo.create(1, cc.p(300,300));
         //piece.spriteBlocks[0][0].runAction(actionmove);
@@ -238,6 +265,9 @@ var HelloWorldLayer = cc.Layer.extend({
 	        							pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
 	        						}
 	        						pieceSelected=-1;
+        						}
+        						if(board.checkVictory()==1){
+        							cc.log("YOU WIN!");
         						}
         						//cc.log("Left mouse released at "+event.getLocationX());
         					}
