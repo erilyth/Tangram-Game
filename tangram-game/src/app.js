@@ -151,7 +151,8 @@ var HelloWorldLayer = cc.Layer.extend({
         // 2. add a menu item with "X" image, which is clicked to quit the program
         //    you may modify it.
         // ask the window size
-        var size = cc.winSize;
+        
+        
         //(0,0) is the bottom left point.
         var board = new Board();
         //var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
@@ -276,73 +277,104 @@ var HelloWorldLayer = cc.Layer.extend({
         			}, this);
         }
         
-        //piece.initpositionarr();
-        //this.addChild(piece);
-        //this.addChild(piece, 0);
-        //this.addChild(board, 0);
-        //this.addChild(piece, 0);
-        
-        // add a "close" icon to exit the progress. it's an autorelease object
-        /*var closeItem = new cc.MenuItemImage(
-            res.CloseNormal_png,
-            res.CloseSelected_png,
-            function () {
-                cc.log("Menu is clicked!");
-            }, this);
-        closeItem.attr({
-            x: size.width - 20,
-            y: 20,
-            anchorX: 0.5,
-            anchorY: 0.5
-        });
-
-        var menu = new cc.Menu(closeItem);
-        menu.x = 0;
-        menu.y = 0;
-        //this.addChild(menu, 1);
-
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-        // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = 0;
-        // add the label as a child to this layer
-        //this.addChild(helloLabel, 5);
-
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scale: 0.5,
-            rotation: 180
-        });
-        this.addChild(this.sprite, 0);
-
-        this.sprite.runAction(
-            cc.sequence(
-                cc.rotateTo(2, 0),
-                cc.scaleTo(2, 1, 1)
-            )
-        );
-        helloLabel.runAction(
-            cc.spawn(
-                cc.moveBy(2.5, cc.p(0, size.height - 40)),
-                cc.tintTo(2.5,255,125,0)
-            )
-        );*/
         return true;
     }
+});
+
+var menuLayer = cc.Layer.extend({
+	ctor:function () {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		var size = cc.winSize;
+		var sprite = new cc.Sprite.create(res.Board_png);
+		sprite.setAnchorPoint(cc.p(0.5,0.5));
+		sprite.setPosition(cc.p(size.width/2,size.height/2));
+		sprite.setScaleX(0.5);
+		sprite.setScaleY(0.2);
+		var sprite2 = new cc.Sprite.create(res.Board_png);
+		sprite2.setAnchorPoint(cc.p(0.5,0.5));
+		sprite2.setPosition(cc.p(size.width/2,(size.height/2)-(size.height/8)));
+		sprite2.setScaleX(0.5);
+		sprite2.setScaleY(0.2);
+		
+		this.addChild(sprite,0);
+		this.addChild(sprite2,0);
+		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseDown:function(event){
+							
+						},
+						onMouseMove: function (event) {         
+							//Move the position of current button sprite
+							
+						},
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								var click2=cc.p(event.getLocationX(),event.getLocationY());
+								var rect = sprite.getBoundingBox();
+								if(cc.rectContainsPoint(rect, click2)){
+									cc.log("Here boy");
+									cc.director.runScene(new GameScene()); 
+									
+									
+								}
+							}
+						
+						}
+
+					}, this);
+		}
+
+		/*if (cc.sys.capabilities.hasOwnProperty('mouse')){
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								var click2=cc.p(event.getLocationX(),event.getLocationY());
+								var rect = sprite.getBoundingBox();
+								if(cc.rectContainsPoint(rect, click2)){
+									cc.log("Here boy");
+									
+
+								}
+							}
+						}
+					});        	
+		}*/
+		return true;
+	},
+	buttoner:function(){
+		return this.buttonclicked;
+	}
 });
 
 var HelloWorldScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-        var layer = new HelloWorldLayer();
-        this.addChild(layer);
+       
+        var layer2 = new menuLayer();
+        this.addChild(layer2);
+        
+       // var layer = new HelloWorldLayer();
+        //this.addChild(layer);
+       
     }
+});
+
+
+var GameScene = cc.Scene.extend({
+	onEnter:function () {
+		this._super();
+
+		
+
+		var layer = new HelloWorldLayer();
+		this.addChild(layer);
+
+	}
 });
 
