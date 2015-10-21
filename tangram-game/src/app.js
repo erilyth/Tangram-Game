@@ -140,7 +140,7 @@ var Board = cc.Class.extend({
 //add your properties and functions
 });
 
-var HelloWorldLayer = cc.Layer.extend({
+var GameMode1Layer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         //////////////////////////////
@@ -281,7 +281,7 @@ var HelloWorldLayer = cc.Layer.extend({
     }
 });
 
-var menuLayer = cc.Layer.extend({
+var MenuLayer = cc.Layer.extend({
 	ctor:function () {
 		//////////////////////////////
 		// 1. super init first
@@ -292,59 +292,11 @@ var menuLayer = cc.Layer.extend({
 		sprite.setPosition(cc.p(size.width/2,size.height/2));
 		sprite.setScaleX(0.5);
 		sprite.setScaleY(0.2);
-		var sprite2 = new cc.Sprite.create(res.Board_png);
-		sprite2.setAnchorPoint(cc.p(0.5,0.5));
-		sprite2.setPosition(cc.p(size.width/2,(size.height/2)-(size.height/8)));
-		sprite2.setScaleX(0.5);
-		sprite2.setScaleY(0.2);
-		
-		this.addChild(sprite,0);
-		this.addChild(sprite2,0);
-		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
-			cc.eventManager.addListener(
-					{
-						event: cc.EventListener.MOUSE,
-						onMouseDown:function(event){
-							
-						},
-						onMouseMove: function (event) {         
-							//Move the position of current button sprite
-							
-						},
-						onMouseUp:function(event){
-							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-								var click2=cc.p(event.getLocationX(),event.getLocationY());
-								var rect = sprite.getBoundingBox();
-								if(cc.rectContainsPoint(rect, click2)){
-									cc.log("Here boy");
-									cc.director.runScene(new GameScene()); 
-									
-									
-								}
-							}
-						
-						}
-
-					}, this);
-		}
-
-		/*if (cc.sys.capabilities.hasOwnProperty('mouse')){
-			cc.eventManager.addListener(
-					{
-						event: cc.EventListener.MOUSE,
-						onMouseUp:function(event){
-							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-								var click2=cc.p(event.getLocationX(),event.getLocationY());
-								var rect = sprite.getBoundingBox();
-								if(cc.rectContainsPoint(rect, click2)){
-									cc.log("Here boy");
-									
-
-								}
-							}
-						}
-					});        	
-		}*/
+		var menuItem1 = new cc.MenuItemFont("Play Mode 1",startGame);
+		var menuItem2 = new cc.MenuItemFont("Quit", quitGame);
+		var menu = new cc.Menu(menuItem1,menuItem2);
+		menu.alignItemsVerticallyWithPadding(50);
+		this.addChild(menu);
 		return true;
 	},
 	buttoner:function(){
@@ -352,29 +304,29 @@ var menuLayer = cc.Layer.extend({
 	}
 });
 
-var HelloWorldScene = cc.Scene.extend({
+var quitGame=function(){
+	cc.log("Exit game");
+}
+
+var startGame=function(){
+	cc.director.runScene(new GameMode1Scene());
+}
+
+var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-       
-        var layer2 = new menuLayer();
+        var layer2 = new MenuLayer();
         this.addChild(layer2);
-        
-       // var layer = new HelloWorldLayer();
-        //this.addChild(layer);
        
     }
 });
 
 
-var GameScene = cc.Scene.extend({
+var GameMode1Scene = cc.Scene.extend({
 	onEnter:function () {
 		this._super();
-
-		
-
-		var layer = new HelloWorldLayer();
+		var layer = new GameMode1Layer();
 		this.addChild(layer);
-
 	}
 });
 
