@@ -305,6 +305,7 @@ var GameMode1Layer = cc.Layer.extend({
         						}
         						if(board.checkVictory()==1){
         							cc.log("YOU WIN!");
+        							cc.director.runScene(new WinScene());
         						}
         						//cc.log("Left mouse released at "+event.getLocationX());
         					}
@@ -467,6 +468,7 @@ var GameMode2Layer = cc.Layer.extend({
 								}
 								if(board.checkVictory()==1){
 									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
 								}
 								//cc.log("Left mouse released at "+event.getLocationX());
 							}
@@ -647,6 +649,7 @@ var GameMode3Layer = cc.Layer.extend({
 								}
 								if(board.checkVictory()==1){
 									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
 								}
 								//cc.log("Left mouse released at "+event.getLocationX());
 							}
@@ -697,6 +700,22 @@ var startGameMode3=function(){
 	cc.director.runScene(new GameMode3Scene());
 }
 
+var WinLayer = cc.Layer.extend({
+	ctor:function () {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		var size = cc.winSize;
+		var sprite = new cc.Sprite.create(res.Youwin_png);
+		sprite.setAnchorPoint(cc.p(0.5,0.5));
+		sprite.setPosition(cc.p(size.width/2,size.height/2));
+		sprite.setScaleX(0.5);
+		sprite.setScaleY(0.5);
+		this.addChild(sprite);
+		return true;
+	}
+});
+
 var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
@@ -705,6 +724,16 @@ var MenuScene = cc.Scene.extend({
        
     }
 });
+
+
+var WinScene = cc.Scene.extend({
+	onEnter:function () {
+		this._super();
+		var layer2 = new WinLayer();
+		this.addChild(layer2);
+	}
+});
+
 
 var GameMode1Scene = cc.Scene.extend({
 	onEnter:function () {

@@ -3,7 +3,8 @@ var res = {
     Board_png : "res/Board.png",
     PlaceBoard_png: "res/PlaceBoard.png",
     CloseNormal_png : "res/CloseNormal.png",
-    CloseSelected_png : "res/CloseSelected.png"
+    CloseSelected_png : "res/CloseSelected.png",
+    Youwin_png : "res/you-win.png"
 };
 
 var g_resources = [];
