@@ -1,6 +1,9 @@
 //BlockWidth is 20 and in other places its directly coded as 20.
 //Board currently has 15 rows and 15 columns where the victory area is a 4x3 rectangle.
 
+var totalOffsetX=0;
+var totalOffsetY=0;
+
 var Piece= cc.Class.extend({
 	color:"blue",
 	blockWidth:20,
@@ -27,7 +30,7 @@ var Piece= cc.Class.extend({
 					this.madeUpCount+=1;
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
 					this.positionarr[i][j]=1;
-					this.spriteBlocks[i][j].setPosition(new cc.Point(this.blockWidth*(i+this.basePositionY),this.blockWidth*(j+this.basePositionX)));
+					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionY),totalOffsetY+this.blockWidth*(j+this.basePositionX)));
 					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
 					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 				}
@@ -44,10 +47,10 @@ var Piece= cc.Class.extend({
 	},
 	checkPiece:function(a,b,boardObj){ //a=x and b=y coordinates so arr[a][b] would be how we check
 		//x axis is rows and y axis is columns.
-		
+
 		//Rows are vertical 
 		//Columns are horizontal
-		
+
 		//cc.log(a);
 		//cc.log(b);
 		var state=0;
@@ -88,16 +91,16 @@ var Piece= cc.Class.extend({
 			for(i=0;i<3;i++){
 				for(j=0;j<3;j++){
 					if(this.positionarr[i][j]==1){
-						var actionMove = cc.MoveTo.create(0.3, cc.p(this.blockWidth*(i+this.basePositionX),this.blockWidth*(j+this.basePositionY)));
+						var actionMove = cc.MoveTo.create(0.3, cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 						this.spriteBlocks[i][j].runAction(actionMove);
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
 					}
 				}
 			}
 		}
-		for(i=0;i<15;i++){
-			cc.log(boardObj.positionarr[i]);
-		}
+		//for(i=0;i<15;i++){
+		//	cc.log(boardObj.positionarr[i]);
+		//}
 	}
 });
 
@@ -130,7 +133,7 @@ var Board = cc.Class.extend({
 					this.spriteBlocks[i][j]= new cc.Sprite.create(res.Board_png);
 				}
 				this.positionarr[i][j]=-1;
-				this.spriteBlocks[i][j].setPosition(new cc.p(20*i,20*j));
+				this.spriteBlocks[i][j].setPosition(new cc.p(totalOffsetX+20*i,totalOffsetY+20*j));
 				this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);
 				this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 			}
@@ -159,163 +162,165 @@ var Board = cc.Class.extend({
 		}
 		return 1;
 	}
-//add your properties and functions
+//	add your properties and functions
 });
 
 var GameMode1Layer = cc.Layer.extend({
-    sprite:null,
-    ctor:function () {
-        //////////////////////////////
-        // 1. super init first
-        this._super();
+	sprite:null,
+	ctor:function () {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		var size=cc.winSize;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
+		/////////////////////////////
+		// 2. add a menu item with "X" image, which is clicked to quit the program
+		//    you may modify it.
+		// ask the window size
 
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
-        
-        
-        //(0,0) is the bottom left point.
-        var boardarray=new Array(15);
-        for(i=0;i<15;i++){
-        	boardarray[i]=new Array(15);
-        	for(j=0;j<15;j++){
-        		boardarray[i][j]=0;
-        	}
-        }
-        for(i=4;i<8;i++){
-        	for(j=4;j<7;j++){
-        		boardarray[i][j]=1;
-        	}
-        }
-        var board = new Board(boardarray);
-        //var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
-        var pieceList = new Array(5);
-        var noOfPieces=2;
-        var piece = new Piece(1,0,0);
-        var piece2 = new Piece(10,5,1);
-        board.belongPieces[0]=piece;
-        board.belongPieces[1]=piece2;
-        //Convention belongPieces[i] should have piece whose pieceNumber is i
-        var arr=new Array(3);
-        var arr2=new Array(3);
-        for(i=0;i<3;i++){
-        	arr[i]=new Array(3);
-        	arr2[i]=new Array(3);
-        	for(j=0;j<3;j++){
-        		arr2[i][j]=1;
-        	}
-        }
-        arr[0][0]=1;
-        arr[0][1]=1;
-        arr[0][2]=1;
-        piece.initpositionarr(arr);
-        piece2.initpositionarr(arr2);
-        pieceList[0]=piece;
-        pieceList[1]=piece2;
-        for(i=0;i<15;i++){
-        	for(j=0;j<15;j++){
-        		this.addChild(board.spriteBlocks[i][j]);
-        	}
-        }
-        for(i=0;i<3;i++){
-        	for(j=0;j<3;j++){
-        		for(k=0;k<noOfPieces;k++){
-	        		if(pieceList[k].positionarr[i][j]==1){
-	        			this.addChild(pieceList[k].spriteBlocks[i][j]);
-	        		}
-        		}
-        	}
-        }
-        for(k=0;k<noOfPieces;k++){
-        	pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
-        }
-        //var actionmove = cc.MoveTo.create(1, cc.p(300,300));
-        //piece.spriteBlocks[0][0].runAction(actionmove);
-        //piece.placePiece(1,4,board);
-        //piece2.placePiece(6,7,board);
-        
-        var clickOffsetXBlock=0;
-        var clickOffsetYBlock=0;
-        var originalBaseX=0;
-        var originalBaseY=0;
-        var pieceSelected=-1;
-        
-        if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
-        	cc.eventManager.addListener(
-        			{
-        				event: cc.EventListener.MOUSE,
-        				onMouseDown:function(event){
-        					if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-        						for(k=0;k<noOfPieces;k++){
-	        						//cc.log(event.getLocationX());
-        							if(pieceSelected==-1){
-        								clickOffsetXBlock=0;
-        								clickOffsetYBlock=0;
-        							}
-	        						var click=cc.p(event.getLocationX(),event.getLocationY());
-	        						var x=Math.floor((event.getLocationX())/20);
-	        						var y=Math.floor((event.getLocationY())/20);
-	        						//cc.log(x + " " + y + " Clicked at")
-	        						for(i=0;i<3;i++){
-	        							for(j=0;j<3;j++){
-	        								if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*20,(pieceList[k].basePositionY+j)*20,20,20),click)){
-	        									originalBaseX=pieceList[k].basePositionX;
-	        									originalBaseY=pieceList[k].basePositionY;
-	        									pieceSelected=k;
-	        									clickOffsetXBlock=i;
-	        									clickOffsetYBlock=j;
-	        								}
-	        							}
-	        						}
-	        						//cc.log("Left mouse clicked at "+event.getLocationX());
-	        					}
-        					}
-        				},
-        				onMouseMove: function (event) {         
-        					//Move the position of current button sprite
-        					if(pieceSelected!=-1){
-        						for(i=0;i<3;i++){
-        							for(j=0;j<3;j++){
-        								if(pieceList[pieceSelected].positionarr[i][j]==1){
-        									var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
-        									var delta = event.getDelta();
-        									target.x += delta.x;
-        									target.y += delta.y;
-        									pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
-        								}
-        							}
-        						}
-        					}
-        				},
-        				onMouseUp:function(event){
-        					if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
-        						if(pieceSelected!=-1){
-	        						var click2=cc.p(event.getLocationX(),event.getLocationY());
-	        						var x=Math.floor((event.getLocationX())/20);
-	        						var y=Math.floor((event.getLocationY())/20);
-	        						cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
-	        						if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
-	        							pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
-	        						}
-	        						else{
-	        							pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
-	        						}
-	        						pieceSelected=-1;
-        						}
-        						if(board.checkVictory()==1){
-        							cc.log("YOU WIN!");
-        							cc.director.runScene(new WinScene());
-        						}
-        						//cc.log("Left mouse released at "+event.getLocationX());
-        					}
-        				}
 
-        			}, this);
-        }
-        
-        return true;
-    }
+		//(0,0) is the bottom left point.
+		var boardarray=new Array(15);
+		for(i=0;i<15;i++){
+			boardarray[i]=new Array(15);
+			for(j=0;j<15;j++){
+				boardarray[i][j]=0;
+			}
+		}
+		for(i=4;i<8;i++){
+			for(j=4;j<7;j++){
+				boardarray[i][j]=1;
+			}
+		}
+		var board = new Board(boardarray);
+		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
+		var pieceList = new Array(5);
+		var noOfPieces=2;
+		var piece = new Piece(1,0,0);
+		var piece2 = new Piece(10,5,1);
+		board.belongPieces[0]=piece;
+		board.belongPieces[1]=piece2;
+		//Convention belongPieces[i] should have piece whose pieceNumber is i
+		var arr=new Array(3);
+		var arr2=new Array(3);
+		for(i=0;i<3;i++){
+			arr[i]=new Array(3);
+			arr2[i]=new Array(3);
+			for(j=0;j<3;j++){
+				arr2[i][j]=1;
+			}
+		}
+		arr[0][0]=1;
+		arr[0][1]=1;
+		arr[0][2]=1;
+		piece.initpositionarr(arr);
+		piece2.initpositionarr(arr2);
+		pieceList[0]=piece;
+		pieceList[1]=piece2;
+		for(i=0;i<15;i++){
+			for(j=0;j<15;j++){
+				this.addChild(board.spriteBlocks[i][j]);
+			}
+		}
+		for(i=0;i<3;i++){
+			for(j=0;j<3;j++){
+				for(k=0;k<noOfPieces;k++){
+					if(pieceList[k].positionarr[i][j]==1){
+						this.addChild(pieceList[k].spriteBlocks[i][j]);
+					}
+				}
+			}
+		}
+		for(k=0;k<noOfPieces;k++){
+			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
+		}
+		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
+		//piece.spriteBlocks[0][0].runAction(actionmove);
+		//piece.placePiece(1,4,board);
+		//piece2.placePiece(6,7,board);
+
+		var clickOffsetXBlock=0;
+		var clickOffsetYBlock=0;
+		var originalBaseX=0;
+		var originalBaseY=0;
+		var pieceSelected=-1;
+
+		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseDown:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								for(k=0;k<noOfPieces;k++){
+									//cc.log(event.getLocationX());
+									if(pieceSelected==-1){
+										clickOffsetXBlock=0;
+										clickOffsetYBlock=0;
+									}
+									var click=cc.p(event.getLocationX(),event.getLocationY());
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
+									for(i=0;i<3;i++){
+										for(j=0;j<3;j++){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
+												originalBaseX=pieceList[k].basePositionX;
+												originalBaseY=pieceList[k].basePositionY;
+												pieceSelected=k;
+												clickOffsetXBlock=i;
+												clickOffsetYBlock=j;
+											}
+										}
+									}
+									//cc.log("Left mouse clicked at "+event.getLocationX());
+								}
+							}
+						},
+						onMouseMove: function (event) {         
+							//Move the position of current button sprite
+							if(pieceSelected!=-1){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[pieceSelected].positionarr[i][j]==1){
+											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
+											var delta = event.getDelta();
+											target.x += delta.x;
+											target.y += delta.y;
+											pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
+										}
+									}
+								}
+							}
+						},
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								if(pieceSelected!=-1){
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
+									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
+										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+									}
+									else{
+										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
+									}
+									pieceSelected=-1;
+								}
+								if(board.checkVictory()==1){
+									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
+								}
+								//cc.log("Left mouse released at "+event.getLocationX());
+							}
+						}
+
+					}, this);
+		}
+
+		return true;
+	}
 });
 
 var GameMode2Layer = cc.Layer.extend({
@@ -324,7 +329,9 @@ var GameMode2Layer = cc.Layer.extend({
 		//////////////////////////////
 		// 1. super init first
 		this._super();
-
+		var size=cc.winSize;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
 		/////////////////////////////
 		// 2. add a menu item with "X" image, which is clicked to quit the program
 		//    you may modify it.
@@ -397,6 +404,10 @@ var GameMode2Layer = cc.Layer.extend({
 		for(k=0;k<noOfPieces;k++){
 			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
 		}
+		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
+		//piece.spriteBlocks[0][0].runAction(actionmove);
+		//piece.placePiece(1,4,board);
+		//piece2.placePiece(6,7,board);
 
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
@@ -417,12 +428,12 @@ var GameMode2Layer = cc.Layer.extend({
 										clickOffsetYBlock=0;
 									}
 									var click=cc.p(event.getLocationX(),event.getLocationY());
-									var x=Math.floor((event.getLocationX())/20);
-									var y=Math.floor((event.getLocationY())/20);
-									//cc.log(x + " " + y + " Clicked at")
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
 									for(i=0;i<3;i++){
 										for(j=0;j<3;j++){
-											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*20,(pieceList[k].basePositionY+j)*20,20,20),click)){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
 												pieceSelected=k;
@@ -454,11 +465,11 @@ var GameMode2Layer = cc.Layer.extend({
 						onMouseUp:function(event){
 							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
 								if(pieceSelected!=-1){
-									var click2=cc.p(event.getLocationX(),event.getLocationY());
-									var x=Math.floor((event.getLocationX())/20);
-									var y=Math.floor((event.getLocationY())/20);
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
 									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
-									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
 										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
 									}
 									else{
@@ -476,7 +487,6 @@ var GameMode2Layer = cc.Layer.extend({
 
 					}, this);
 		}
-
 		return true;
 	}
 });
@@ -487,7 +497,9 @@ var GameMode3Layer = cc.Layer.extend({
 		//////////////////////////////
 		// 1. super init first
 		this._super();
-
+		var size=cc.winSize;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
 		/////////////////////////////
 		// 2. add a menu item with "X" image, which is clicked to quit the program
 		//    you may modify it.
@@ -578,6 +590,10 @@ var GameMode3Layer = cc.Layer.extend({
 		for(k=0;k<noOfPieces;k++){
 			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
 		}
+		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
+		//piece.spriteBlocks[0][0].runAction(actionmove);
+		//piece.placePiece(1,4,board);
+		//piece2.placePiece(6,7,board);
 
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
@@ -598,12 +614,12 @@ var GameMode3Layer = cc.Layer.extend({
 										clickOffsetYBlock=0;
 									}
 									var click=cc.p(event.getLocationX(),event.getLocationY());
-									var x=Math.floor((event.getLocationX())/20);
-									var y=Math.floor((event.getLocationY())/20);
-									//cc.log(x + " " + y + " Clicked at")
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
 									for(i=0;i<3;i++){
 										for(j=0;j<3;j++){
-											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect((pieceList[k].basePositionX+i)*20,(pieceList[k].basePositionY+j)*20,20,20),click)){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
 												pieceSelected=k;
@@ -635,11 +651,11 @@ var GameMode3Layer = cc.Layer.extend({
 						onMouseUp:function(event){
 							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
 								if(pieceSelected!=-1){
-									var click2=cc.p(event.getLocationX(),event.getLocationY());
-									var x=Math.floor((event.getLocationX())/20);
-									var y=Math.floor((event.getLocationY())/20);
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
 									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
-									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock, y-clickOffsetYBlock, board)==1){
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
 										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
 									}
 									else{
@@ -657,7 +673,6 @@ var GameMode3Layer = cc.Layer.extend({
 
 					}, this);
 		}
-
 		return true;
 	}
 });
@@ -717,12 +732,12 @@ var WinLayer = cc.Layer.extend({
 });
 
 var MenuScene = cc.Scene.extend({
-    onEnter:function () {
-        this._super();
-        var layer = new MenuLayer();
-        this.addChild(layer);
-       
-    }
+	onEnter:function () {
+		this._super();
+		var layer = new MenuLayer();
+		this.addChild(layer);
+
+	}
 });
 
 
