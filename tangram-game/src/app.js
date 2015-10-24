@@ -18,19 +18,25 @@ var Piece= cc.Class.extend({
 		// Custom initialization
 	},
 	positionarr:[],
+	rotatedarr:[],
+	oldarr:[],
 	spriteBlocks:[],
 	initpositionarr:function(posarr){
-		this.positionarr=new Array(3)
-		this.spriteBlocks=new Array(3)
+		this.positionarr=new Array(3);
+		this.oldarr=new Array(3);
+		this.rotatedarr=new Array(3);
+		this.spriteBlocks=new Array(3);
 		for(i=0;i<3;i++){
+			this.oldarr[i]=new Array(3);
 			this.spriteBlocks[i]= new Array(3);
+			this.rotatedarr[i]=new Array(3);
 			this.positionarr[i]=new Array(3);
 			for(j=0;j<3;j++){
 				if(posarr[i][j]==1){
 					this.madeUpCount+=1;
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
 					this.positionarr[i][j]=1;
-					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionY),totalOffsetY+this.blockWidth*(j+this.basePositionX)));
+					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
 					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 				}
@@ -91,7 +97,7 @@ var Piece= cc.Class.extend({
 			for(i=0;i<3;i++){
 				for(j=0;j<3;j++){
 					if(this.positionarr[i][j]==1){
-						var actionMove = cc.MoveTo.create(0.3, cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
+						var actionMove = cc.MoveTo.create(0, cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 						this.spriteBlocks[i][j].runAction(actionMove);
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
 					}
@@ -101,6 +107,52 @@ var Piece= cc.Class.extend({
 		//for(i=0;i<15;i++){
 		//	cc.log(boardObj.positionarr[i]);
 		//}
+	},
+	rotatePiece:function(dir,boardObj){
+		for(i=0;i<3;i++){
+			for(j=0;j<3;j++){
+				this.oldarr[i][j]=this.positionarr[i][j];
+				this.rotatedarr[i][j]=this.positionarr[2-j][i];
+			}
+		}
+		for(i=0;i<3;i++){
+			for(j=0;j<3;j++){
+				this.positionarr[i][j]=this.rotatedarr[i][j];
+			}
+		}
+		if(this.checkPiece(this.basePositionX,this.basePositionY,boardObj)==1){
+			for(i=0;i<3;i++){
+				for(j=0;j<3;j++){
+					if(this.oldarr[i][j]==1){
+						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=-1;
+					}
+				}
+			}
+			for(i=0;i<3;i++){
+				for(j=0;j<3;j++){
+					if(this.positionarr[i][j]==1){
+						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
+					}
+				}
+			}
+		}
+		else{
+			for(i=0;i<3;i++){
+				for(j=0;j<3;j++){
+					this.positionarr[i][j]=this.oldarr[i][j];
+				}
+			}
+		}
+		for(i=0;i<3;i++){
+			for(j=0;j<3;j++){
+				if(this.positionarr[i][j]==1){
+					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
+					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
+					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
+					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
+				}
+			}
+		}
 	}
 });
 
@@ -239,13 +291,45 @@ var GameMode1Layer = cc.Layer.extend({
 		//piece.spriteBlocks[0][0].runAction(actionmove);
 		//piece.placePiece(1,4,board);
 		//piece2.placePiece(6,7,board);
-
+		
+		var recentPiece=0;
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
 		var originalBaseX=0;
 		var originalBaseY=0;
 		var pieceSelected=-1;
-
+		var reference=this;
+		
+		if (cc.sys.capabilities.hasOwnProperty('keyboard')){
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.KEYBOARD,
+						onKeyPressed:function(key,event){
+							if(key==68){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.removeChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+								pieceList[recentPiece].rotatePiece(0,board);
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.addChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+							}
+							if(board.checkVictory()==1){
+								cc.log("YOU WIN!");
+								cc.director.runScene(new WinScene());
+							}
+						}
+					},this);
+		}
+		
 		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
 			cc.eventManager.addListener(
 					{
@@ -268,6 +352,7 @@ var GameMode1Layer = cc.Layer.extend({
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
 												pieceSelected=k;
+												recentPiece=k;
 												clickOffsetXBlock=i;
 												clickOffsetYBlock=j;
 											}
@@ -409,12 +494,44 @@ var GameMode2Layer = cc.Layer.extend({
 		//piece.placePiece(1,4,board);
 		//piece2.placePiece(6,7,board);
 
+		var recentPiece=0;
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
 		var originalBaseX=0;
 		var originalBaseY=0;
 		var pieceSelected=-1;
+		var reference=this;
 
+		if (cc.sys.capabilities.hasOwnProperty('keyboard')){
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.KEYBOARD,
+						onKeyPressed:function(key,event){
+							if(key==68){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.removeChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+								pieceList[recentPiece].rotatePiece(0,board);
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.addChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+							}
+							if(board.checkVictory()==1){
+								cc.log("YOU WIN!");
+								cc.director.runScene(new WinScene());
+							}
+						}
+					},this);
+		}
+		
 		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
 			cc.eventManager.addListener(
 					{
@@ -437,6 +554,7 @@ var GameMode2Layer = cc.Layer.extend({
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
 												pieceSelected=k;
+												recentPiece=k;
 												clickOffsetXBlock=i;
 												clickOffsetYBlock=j;
 											}
@@ -595,12 +713,44 @@ var GameMode3Layer = cc.Layer.extend({
 		//piece.placePiece(1,4,board);
 		//piece2.placePiece(6,7,board);
 
+		var recentPiece=0;
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
 		var originalBaseX=0;
 		var originalBaseY=0;
 		var pieceSelected=-1;
+		var reference=this;
 
+		if (cc.sys.capabilities.hasOwnProperty('keyboard')){
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.KEYBOARD,
+						onKeyPressed:function(key,event){
+							if(key==68){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.removeChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+								pieceList[recentPiece].rotatePiece(0,board);
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[recentPiece].positionarr[i][j]==1){
+											reference.addChild(pieceList[recentPiece].spriteBlocks[i][j]);
+										}
+									}
+								}
+							}
+							if(board.checkVictory()==1){
+								cc.log("YOU WIN!");
+								cc.director.runScene(new WinScene());
+							}
+						}
+					},this);
+		}
+		
 		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
 			cc.eventManager.addListener(
 					{
@@ -623,6 +773,7 @@ var GameMode3Layer = cc.Layer.extend({
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
 												pieceSelected=k;
+												recentPiece=k;
 												clickOffsetXBlock=i;
 												clickOffsetYBlock=j;
 											}
