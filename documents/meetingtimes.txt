@@ -133,3 +133,12 @@ Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, Client
 Duration: 30 min
 
 ************************************************************************************************
+
+Meet: 13
+Date: October 23rd
+Discussion:
+	1.A small bug fix for our game since it wasn't working on mobile.
+Action Points:
+	1.Investigate the bug a little more and understand why it works on the computer but not on an android device.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, Client
+Duration: 1 hr
