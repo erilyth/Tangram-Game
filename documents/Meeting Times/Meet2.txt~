@@ -1,0 +1,158 @@
+Meet: 1
+Date: August 12th
+Discussion:
+ 	1. Introduction with client 
+	2. Introduction to project
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Duration: 2 hr
+
+*******************************************************************************************
+
+Meet: 2
+Date: August 20th
+Discussion:	
+	1.All the software related to the project is introduced
+	2.We were asked to install the required software and get the system set
+Action Poins:
+	1.Make sure the software is compatible and works as desired.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Duration: 1 hr
+
+*******************************************************************************************
+
+Meet: 3
+Date: September 1st
+Discussion:
+	1.Ideas and insight on Tic-Tac-Toe game.
+	2.Implementation of the Tic-Tac-Toe game.
+Action Points:
+	1.Get started on making the game in cocos-studio.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das, TA
+Duration: 2 hr
+
+*******************************************************************************************
+
+Meet: 4
+Date: August 27th
+Discussion:
+	1.Doubts and Clarifications about the Tic-Tac-Toe game
+Action Points:
+Members: Client, Nikhil Tadigopula, Syamantak Das
+Duration: 1 hr
+
+*******************************************************************************************
+
+Meet: 5
+Date: September 15th
+Discussion:
+	1.Access to actual 'Block Puzzle' game at the current stage of development.
+	2.What the game is meant to be and details about the game.
+Action Points:
+	1.Get started with making class diagrams for the main screen of the game.
+Members: Client, Raghu Ram, Vishal Batchu, TA
+Duration: 1 hr
+
+*******************************************************************************************
+Meet: 6
+Date: September 25th
+Discussion:
+	1.Showed the design diagrams we made.
+	2.Talked about how improvements can be made to the design.
+Action Points:
+	1.Start detailing the design while improving it wherever needed.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 2 hr
+
+*********************************************************************************************
+
+Meet: 7
+Date: October 4th
+Discussion:
+	1.Showed our updated class diagrams and designs for the game.
+	2.Started designing the levels and modes as well apart from just the game.
+Action Points:
+	1.Give more information in each class and how they communicate with each other.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 3 hr
+
+***********************************************************************************************
+
+Meet: 8
+Date: October 5th
+Discussion:
+	1.What and how we need to present for R1, and finalized a few designs.
+Action Points:
+	1.Make a presentation for R1 and also update the design pdf.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, TA
+Duration: 3 hr
+
+************************************************************************************************
+
+Meet: 9
+Date: October 8th
+Discussion:
+	1.How to get started with the implementation phase.
+	2.Adjusted project requirements to suit needs.
+Action Points:
+	1.Review Tic-Tac-Toe game to get started with actual implementation.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, TA
+Duration: 1 hr
+
+************************************************************************************************
+
+Meet: 10
+Date: October 9th
+Discussion:
+	1.Team meet.
+	2.Plan of action to talk to raghu reddy sir and the client and finalize the requirements that were modified.
+Action Points:
+	1.Update Documents(Pending)
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 30 min
+
+************************************************************************************************
+
+Meet: 11
+Date: October 12th
+Discussion:
+	1.Ideas on working models and classes to start making the game from scratch.
+Action Points:
+	1.Started making classes and models for the game.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 1 hr
+
+************************************************************************************************
+
+Meet: 12
+Date: October 14th
+Discussion:
+	1.Next client meet schedule, after exams on 19th, to start actual work with implementation.
+Action Points:
+	1.Nil
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, Client
+Duration: 30 min
+
+************************************************************************************************
+
+Meet: 13
+Date: October 23rd
+Discussion:
+	1.A small bug fix for our game since it wasn't working on mobile.
+Action Points:
+	1.Investigate the bug a little more and understand why it works on the computer but not on an android device.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, Client
+Duration: 1 hr
+
+************************************************************************************************
+
+Meet: 14
+Date: October 28th
+Discussion:
+	1.Regarding progress on project
+Action Points:
+	1.Find out if project is progressing properly.
+	2.Discuss regarding future actions.
+Members: Raghu Ram, Vishal Batchu, Professor, TA
+Duration: 30 min
+
+************************************************************************************************

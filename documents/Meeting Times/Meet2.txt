@@ -1,0 +1,9 @@
+Meet: 2
+Date: August 20th
+Discussion:	
+	1.All the software related to the project is introduced
+	2.We were asked to install the required software and get the system set
+Action Poins:
+	1.Make sure the software is compatible and works as desired.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Duration: 1 hr

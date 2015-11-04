@@ -1,0 +1,7 @@
+Meet: 4
+Date: August 27th
+Discussion:
+	1.Doubts and Clarifications about the Tic-Tac-Toe game
+Action Points:
+Members: Client, Nikhil Tadigopula, Syamantak Das
+Duration: 1 hr

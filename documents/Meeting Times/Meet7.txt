@@ -1,0 +1,9 @@
+Meet: 7
+Date: October 4th
+Discussion:
+	1.Showed our updated class diagrams and designs for the game.
+	2.Started designing the levels and modes as well apart from just the game.
+Action Points:
+	1.Give more information in each class and how they communicate with each other.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 3 hr

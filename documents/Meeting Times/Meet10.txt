@@ -1,0 +1,9 @@
+Meet: 10
+Date: October 9th
+Discussion:
+	1.Team meet.
+	2.Plan of action to talk to raghu reddy sir and the client and finalize the requirements that were modified.
+Action Points:
+	1.Update Documents(Pending)
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 30 min

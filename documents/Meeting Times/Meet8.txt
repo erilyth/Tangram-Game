@@ -1,0 +1,8 @@
+Meet: 8
+Date: October 5th
+Discussion:
+	1.What and how we need to present for R1, and finalized a few designs.
+Action Points:
+	1.Make a presentation for R1 and also update the design pdf.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, TA
+Duration: 3 hr

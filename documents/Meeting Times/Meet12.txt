@@ -1,0 +1,8 @@
+Meet: 12
+Date: October 14th
+Discussion:
+	1.Next client meet schedule, after exams on 19th, to start actual work with implementation.
+Action Points:
+	1.Nil
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das, Client
+Duration: 30 min

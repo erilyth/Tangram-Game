@@ -1,0 +1,8 @@
+Meet: 11
+Date: October 12th
+Discussion:
+	1.Ideas on working models and classes to start making the game from scratch.
+Action Points:
+	1.Started making classes and models for the game.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 1 hr
