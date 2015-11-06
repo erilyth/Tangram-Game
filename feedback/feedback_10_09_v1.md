@@ -8,8 +8,8 @@ Documents Feedback Team - 16
 ### Project Plan (7/10)
     - Incomplete project plan. 
 		    
-### Status Tracker 1 (1/5)
-    - Incomplete document.
+### Status Tracker 1 (4/5)
+    - Improve neatness in the doc.
     
 ### Status Tracker 2 (5/5)
     - Good. 
