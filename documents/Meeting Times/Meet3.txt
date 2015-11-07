@@ -1,0 +1,9 @@
+Meet: 3
+Date: September 1st
+Discussion:
+	1.Ideas and insight on Tic-Tac-Toe game.
+	2.Implementation of the Tic-Tac-Toe game.
+Action Points:
+	1.Get started on making the game in cocos-studio.
+Members: Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das, TA
+Duration: 2 hr

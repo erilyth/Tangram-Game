@@ -1,0 +1,9 @@
+Meet: 6
+Date: September 25th
+Discussion:
+	1.Showed the design diagrams we made.
+	2.Talked about how improvements can be made to the design.
+Action Points:
+	1.Start detailing the design while improving it wherever needed.
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigoppula, Syamantak Das
+Duration: 2 hr

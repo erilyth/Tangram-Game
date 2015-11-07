@@ -1,0 +1,9 @@
+Meet: 5
+Date: September 15th
+Discussion:
+	1.Access to actual 'Block Puzzle' game at the current stage of development.
+	2.What the game is meant to be and details about the game.
+Action Points:
+	1.Get started with making class diagrams for the main screen of the game.
+Members: Client, Raghu Ram, Vishal Batchu, TA
+Duration: 1 hr

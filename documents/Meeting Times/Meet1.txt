@@ -1,0 +1,7 @@
+Meet: 1
+Date: August 12th
+Discussion:
+ 	1. Introduction with client 
+	2. Introduction to project
+Members: Client, Raghu Ram, Vishal Batchu, Nikhil Tadigopula, Syamantak Das
+Duration: 2 hr
