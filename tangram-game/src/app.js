@@ -842,13 +842,18 @@ var MenuLayer = cc.Layer.extend({
 		var menuItem1 = new cc.MenuItemFont("Play Mode 1", startGameMode1);
 		var menuItem2 = new cc.MenuItemFont("Play Mode 2", startGameMode2);
 		var menuItem3 = new cc.MenuItemFont("Play Mode 3", startGameMode3);
-		var menuItem4 = new cc.MenuItemFont("Quit", quitGame);
-		var menu = new cc.Menu(menuItem1,menuItem2,menuItem3,menuItem4);
+		var menuItem4 = new cc.MenuItemFont("View Highscores", viewScores);
+		var menuItem5 = new cc.MenuItemFont("Quit", quitGame);
+		var menu = new cc.Menu(menuItem1,menuItem2,menuItem3,menuItem4,menuItem5);
 		menu.alignItemsVerticallyWithPadding(50);
 		this.addChild(menu);
 		return true;
 	}
 });
+
+var viewScores=function(){
+	cc.director.runScene(new ScoreScene());
+}
 
 var quitGame=function(){
 	cc.log("Exit game");
@@ -866,6 +871,25 @@ var startGameMode3=function(){
 	cc.director.runScene(new GameMode3Scene());
 }
 
+var ScoreLayer = cc.Layer.extend({
+	ctor:function () {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		var size = cc.winSize;
+		var sprite = new cc.Sprite.create(res.Youwin_png);
+		sprite.setAnchorPoint(cc.p(0.5,0.5));
+		sprite.setPosition(cc.p(size.width/2,size.height/2));
+		sprite.setScaleX(0.5);
+		sprite.setScaleY(0.5);
+		this.addChild(sprite);
+		var ls= cc.sys.localStorage;
+		var value=ls.getItem("Vishal");
+		cc.log(value);
+		return true;
+	},
+});
+
 var WinLayer = cc.Layer.extend({
 	ctor:function () {
 		//////////////////////////////
@@ -878,7 +902,50 @@ var WinLayer = cc.Layer.extend({
 		sprite.setScaleX(0.5);
 		sprite.setScaleY(0.5);
 		this.addChild(sprite);
+		textField = new ccui.TextField();
+		textField.setTouchEnabled(true);
+		textField.fontName = "Marker Felt";
+		textField.placeHolder = "Input here";
+		textField.fontSize = 30;
+		textField.x = size.width/2;
+		textField.y = size.height/2;
+		textField.addEventListener(this.textFieldEvent, this);
+		
+		this.addChild(textField);
 		return true;
+	},
+	
+	textFieldEvent: function(sender, type){
+		switch (type)
+		{
+			case ccui.TextField.EVENT_ATTACH_WITH_IME:
+				cc.log("Activate");
+				
+				break;
+			case ccui.TextField.EVENT_DETACH_WITH_IME:
+				var ls = cc.sys.localStorage;
+				ls.setItem(textField.string,100);
+
+				break;
+			case ccui.TextField.EVENT_INSERT_TEXT:
+				cc.log("Inserted");
+				cc.log(textField.string);
+
+				break;
+			case ccui.TextField.EVENT_DELETE_BACKWARD:
+				cc.log("Delete");
+				cc.log(textField.string);
+				
+				break;
+		}
+	}
+});
+
+var ScoreScene = cc.Scene.extend({
+	onEnter:function () {
+		this._super();
+		var layer5 = new ScoreLayer();
+		this.addChild(layer5);
 	}
 });
 
