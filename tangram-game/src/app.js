@@ -3,6 +3,8 @@
 
 var totalOffsetX=0;
 var totalOffsetY=0;
+var levelScore=0;
+
 
 var Piece= cc.Class.extend({
 	color:"blue",
@@ -224,6 +226,7 @@ var GameMode1Layer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size=cc.winSize;
+		levelScore=0;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
 		/////////////////////////////
@@ -306,6 +309,7 @@ var GameMode1Layer = cc.Layer.extend({
 						event: cc.EventListener.KEYBOARD,
 						onKeyPressed:function(key,event){
 							if(key==68){
+								levelScore+=1;
 								for(i=0;i<3;i++){
 									for(j=0;j<3;j++){
 										if(pieceList[recentPiece].positionarr[i][j]==1){
@@ -387,6 +391,7 @@ var GameMode1Layer = cc.Layer.extend({
 									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
 									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
 										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
 									}
 									else{
 										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
@@ -403,7 +408,11 @@ var GameMode1Layer = cc.Layer.extend({
 
 					}, this);
 		}
-
+		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menu = new cc.Menu(menuItem);
+		menu.alignItemsVerticallyWithPadding(50);
+		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		this.addChild(menu);
 		return true;
 	}
 });
@@ -414,6 +423,7 @@ var GameMode2Layer = cc.Layer.extend({
 		//////////////////////////////
 		// 1. super init first
 		this._super();
+		levelScore=0;
 		var size=cc.winSize;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
@@ -508,6 +518,7 @@ var GameMode2Layer = cc.Layer.extend({
 						event: cc.EventListener.KEYBOARD,
 						onKeyPressed:function(key,event){
 							if(key==68){
+								levelScore+=1;
 								for(i=0;i<3;i++){
 									for(j=0;j<3;j++){
 										if(pieceList[recentPiece].positionarr[i][j]==1){
@@ -589,6 +600,7 @@ var GameMode2Layer = cc.Layer.extend({
 									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
 									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
 										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
 									}
 									else{
 										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
@@ -605,6 +617,11 @@ var GameMode2Layer = cc.Layer.extend({
 
 					}, this);
 		}
+		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menu = new cc.Menu(menuItem);
+		menu.alignItemsVerticallyWithPadding(50);
+		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		this.addChild(menu);
 		return true;
 	}
 });
@@ -615,6 +632,7 @@ var GameMode3Layer = cc.Layer.extend({
 		//////////////////////////////
 		// 1. super init first
 		this._super();
+		levelScore=0;
 		var size=cc.winSize;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
@@ -727,6 +745,7 @@ var GameMode3Layer = cc.Layer.extend({
 						event: cc.EventListener.KEYBOARD,
 						onKeyPressed:function(key,event){
 							if(key==68){
+								levelScore+=1;
 								for(i=0;i<3;i++){
 									for(j=0;j<3;j++){
 										if(pieceList[recentPiece].positionarr[i][j]==1){
@@ -808,6 +827,7 @@ var GameMode3Layer = cc.Layer.extend({
 									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
 									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
 										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
 									}
 									else{
 										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
@@ -824,6 +844,11 @@ var GameMode3Layer = cc.Layer.extend({
 
 					}, this);
 		}
+		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menu = new cc.Menu(menuItem);
+		menu.alignItemsVerticallyWithPadding(50);
+		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		this.addChild(menu);
 		return true;
 	}
 });
@@ -877,18 +902,31 @@ var ScoreLayer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size = cc.winSize;
-		var sprite = new cc.Sprite.create(res.Youwin_png);
-		sprite.setAnchorPoint(cc.p(0.5,0.5));
-		sprite.setPosition(cc.p(size.width/2,size.height/2));
-		sprite.setScaleX(0.5);
-		sprite.setScaleY(0.5);
-		this.addChild(sprite);
 		var ls= cc.sys.localStorage;
-		var value=ls.getItem("Vishal");
-		cc.log(value);
+		var value;
+		var players=Object.keys(ls);
+		var temp;
+		for(temp=0;temp<players.length;temp++){
+			value=ls.getItem(players[temp]);
+			if(value!=null){
+				var label = new cc.LabelTTF(players[temp]+ " " +value,"Arial");
+				label.setFontSize(10);
+				label.setPosition(cc.p(size.width/2,size.height/2-50+temp*20));
+				this.addChild(label);
+			}
+		}
+		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menu = new cc.Menu(menuItem);
+		menu.alignItemsVerticallyWithPadding(50);
+		menu.setPosition(cc.p(size.width/2,size.height/2-130))
+		this.addChild(menu);
 		return true;
 	},
 });
+
+var goToMenu=function(){
+	cc.director.runScene(new MenuScene());
+}
 
 var WinLayer = cc.Layer.extend({
 	ctor:function () {
@@ -905,12 +943,14 @@ var WinLayer = cc.Layer.extend({
 		textField = new ccui.TextField();
 		textField.setTouchEnabled(true);
 		textField.fontName = "Marker Felt";
-		textField.placeHolder = "Input here";
+		textField.placeHolder = "Enter your name here";
 		textField.fontSize = 30;
 		textField.x = size.width/2;
-		textField.y = size.height/2;
+		textField.y = size.height/2+100;
 		textField.addEventListener(this.textFieldEvent, this);
-		
+		var label = new cc.LabelTTF(levelScore, "Lobster", 28);
+		label.setPosition(cc.p(size.width/2,size.height/2-40));
+		this.addChild(label);
 		this.addChild(textField);
 		return true;
 	},
@@ -924,7 +964,8 @@ var WinLayer = cc.Layer.extend({
 				break;
 			case ccui.TextField.EVENT_DETACH_WITH_IME:
 				var ls = cc.sys.localStorage;
-				ls.setItem(textField.string,100);
+				ls.setItem(textField.string,30-levelScore);
+				cc.director.runScene(new MenuScene());
 
 				break;
 			case ccui.TextField.EVENT_INSERT_TEXT:
