@@ -4,10 +4,12 @@
 var totalOffsetX=0;
 var totalOffsetY=0;
 var levelScore=0;
-var mode1Levels=1;
-var mode2Levels=2;
-var mode3Levels=3;
+var modeLevels = [1,1,1];
 var currentMode=0;
+var currentLevel=0;
+
+var creationGameMode=-1; //Do not modify this.
+var creationLevel=-1; //Do not modify this
 
 var Piece= cc.Class.extend({
 	color:"blue",
@@ -224,15 +226,13 @@ var Board = cc.Class.extend({
 
 var GameMode1Layer = cc.Layer.extend({
 	sprite:null,
-	ctor:function () {
+	ctor:function (board,pieceList,noOfPieces) {
 		//////////////////////////////
 		// 1. super init first
 		this._super();
 		var size=cc.winSize;
 		currentMode=1;
 		levelScore=0;
-		totalOffsetX=size.width/2-150;
-		totalOffsetY=size.height/2-150;
 		/////////////////////////////
 		// 2. add a menu item with "X" image, which is clicked to quit the program
 		//    you may modify it.
@@ -240,43 +240,6 @@ var GameMode1Layer = cc.Layer.extend({
 
 
 		//(0,0) is the bottom left point.
-		var boardarray=new Array(15);
-		for(i=0;i<15;i++){
-			boardarray[i]=new Array(15);
-			for(j=0;j<15;j++){
-				boardarray[i][j]=0;
-			}
-		}
-		for(i=4;i<8;i++){
-			for(j=4;j<7;j++){
-				boardarray[i][j]=1;
-			}
-		}
-		var board = new Board(boardarray);
-		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
-		var pieceList = new Array(5);
-		var noOfPieces=2;
-		var piece = new Piece(1,0,0);
-		var piece2 = new Piece(10,5,1);
-		board.belongPieces[0]=piece;
-		board.belongPieces[1]=piece2;
-		//Convention belongPieces[i] should have piece whose pieceNumber is i
-		var arr=new Array(3);
-		var arr2=new Array(3);
-		for(i=0;i<3;i++){
-			arr[i]=new Array(3);
-			arr2[i]=new Array(3);
-			for(j=0;j<3;j++){
-				arr2[i][j]=1;
-			}
-		}
-		arr[0][0]=1;
-		arr[0][1]=1;
-		arr[0][2]=1;
-		piece.initpositionarr(arr);
-		piece2.initpositionarr(arr2);
-		pieceList[0]=piece;
-		pieceList[1]=piece2;
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
 				this.addChild(board.spriteBlocks[i][j]);
@@ -293,12 +256,7 @@ var GameMode1Layer = cc.Layer.extend({
 		}
 		for(k=0;k<noOfPieces;k++){
 			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
-		}
-		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
-		//piece.spriteBlocks[0][0].runAction(actionmove);
-		//piece.placePiece(1,4,board);
-		//piece2.placePiece(6,7,board);
-		
+		}	
 		var recentPiece=0;
 		var clickOffsetXBlock=0;
 		var clickOffsetYBlock=0;
@@ -423,70 +381,13 @@ var GameMode1Layer = cc.Layer.extend({
 
 var GameMode2Layer = cc.Layer.extend({
 	sprite:null,
-	ctor:function () {
+	ctor:function (board,pieceList,noOfPieces) {
 		//////////////////////////////
 		// 1. super init first
 		this._super();
+		var size=cc.winSize;
 		currentMode=2;
 		levelScore=0;
-		var size=cc.winSize;
-		totalOffsetX=size.width/2-150;
-		totalOffsetY=size.height/2-150;
-		/////////////////////////////
-		// 2. add a menu item with "X" image, which is clicked to quit the program
-		//    you may modify it.
-		// ask the window size
-
-
-		//(0,0) is the bottom left point.
-		var boardarray=new Array(15);
-		for(i=0;i<15;i++){
-			boardarray[i]=new Array(15);
-			for(j=0;j<15;j++){
-				boardarray[i][j]=0;
-			}
-		}
-		for(i=4;i<8;i++){
-			for(j=4;j<7;j++){
-				boardarray[i][j]=1;
-			}
-		}
-		var board = new Board(boardarray);
-		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
-		var pieceList = new Array(5);
-		var noOfPieces=3;
-		var piece = new Piece(1,0,0);
-		var piece2 = new Piece(10,5,1);
-		var piece3 = new Piece(12,1,2);
-		board.belongPieces[0]=piece;
-		board.belongPieces[1]=piece2;
-		board.belongPieces[2]=piece3;
-		//var piece3 = new Piece(7,1,2);
-		var arr=new Array(3);
-		var arr2=new Array(3);
-		var arr3=new Array(3);
-		for(i=0;i<3;i++){
-			arr[i]=new Array(3);
-			arr2[i]=new Array(3);
-			arr3[i]=new Array(3);
-			for(j=0;j<3;j++){
-				arr2[i][j]=1;
-			}
-		}
-		arr[0][0]=1;
-		arr[0][1]=1;
-		arr[0][2]=1;
-		arr3[0][0]=1;
-		arr3[0][1]=1;
-		arr3[0][2]=1;
-		arr3[1][0]=1;
-		arr3[2][0]=1;
-		piece.initpositionarr(arr);
-		piece2.initpositionarr(arr2);
-		piece3.initpositionarr(arr3);
-		pieceList[0]=piece;
-		pieceList[1]=piece2;
-		pieceList[2]=piece3;
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
 				this.addChild(board.spriteBlocks[i][j]);
@@ -633,88 +534,13 @@ var GameMode2Layer = cc.Layer.extend({
 
 var GameMode3Layer = cc.Layer.extend({
 	sprite:null,
-	ctor:function () {
+	ctor:function (board,pieceList,noOfPieces) {
 		//////////////////////////////
 		// 1. super init first
 		this._super();
+		var size=cc.winSize;
 		levelScore=0;
 		currentMode=3;
-		var size=cc.winSize;
-		totalOffsetX=size.width/2-150;
-		totalOffsetY=size.height/2-150;
-		/////////////////////////////
-		// 2. add a menu item with "X" image, which is clicked to quit the program
-		//    you may modify it.
-		// ask the window size
-
-
-		//(0,0) is the bottom left point.
-		var boardarray=new Array(15);
-		for(i=0;i<15;i++){
-			boardarray[i]=new Array(15);
-			for(j=0;j<15;j++){
-				boardarray[i][j]=0;
-			}
-		}
-		for(i=4;i<8;i++){
-			for(j=4;j<7;j++){
-				boardarray[i][j]=1;
-			}
-		}
-		for(i=9;i<13;i++){
-			for(j=9;j<12;j++){
-				boardarray[i][j]=1;
-			}
-		}
-		var board = new Board(boardarray);
-		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
-		var pieceList = new Array(5);
-		var noOfPieces=4;
-		var piece = new Piece(1,0,0);
-		var piece2 = new Piece(10,5,1);
-		var piece3 = new Piece(12,1,2);
-		var piece4 = new Piece(2,10,3);
-		board.belongPieces[0]=piece;
-		board.belongPieces[1]=piece2;
-		board.belongPieces[2]=piece3;
-		board.belongPieces[3]=piece4;
-		//var piece3 = new Piece(7,1,2);
-		var arr=new Array(3);
-		var arr2=new Array(3);
-		var arr3=new Array(3);
-		var arr4=new Array(3);
-		for(i=0;i<3;i++){
-			arr[i]=new Array(3);
-			arr2[i]=new Array(3);
-			arr3[i]=new Array(3);
-			arr4[i]=new Array(3);
-			for(j=0;j<3;j++){
-				arr2[i][j]=1;
-			}
-		}
-		arr[0][0]=1;
-		arr[0][1]=1;
-		arr[0][2]=1;
-		arr3[0][0]=1;
-		arr3[0][1]=1;
-		arr3[0][2]=1;
-		arr3[1][0]=1;
-		arr3[2][0]=1;
-		arr4[1][1]=1;
-		arr4[1][2]=1;
-		arr4[2][1]=1;
-		arr4[2][2]=1;
-		arr4[0][1]=1;
-		arr4[0][2]=1;
-		arr4[2][0]=1;
-		piece.initpositionarr(arr);
-		piece2.initpositionarr(arr2);
-		piece3.initpositionarr(arr3);
-		piece4.initpositionarr(arr4);
-		pieceList[0]=piece;
-		pieceList[1]=piece2;
-		pieceList[2]=piece3;
-		pieceList[3]=piece4;
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
 				this.addChild(board.spriteBlocks[i][j]);
@@ -883,6 +709,42 @@ var MenuLayer = cc.Layer.extend({
 	}
 });
 
+var LevelLayer = cc.Layer.extend({
+	ctor:function (gameMode) {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		cc.log(gameMode);
+		var size = cc.winSize;
+		var menuItems = new Array(modeLevels[gameMode-1]);
+		for(i=0;i<modeLevels[gameMode-1];i++){
+			j=i+1;
+			menuItems[i] = new cc.MenuItemFont("Level "+j.toString(), 
+				function() {  
+					if(gameMode==1){
+						if(j==1)
+							cc.director.runScene(new GameMode1Scene1());
+					}
+					if(gameMode==2){
+						if(j==1)
+							cc.director.runScene(new GameMode2Scene1());
+					}
+					if(gameMode==3){
+						if(j==1)
+							cc.director.runScene(new GameMode3Scene1());
+					}  
+				}
+			);
+		}
+		var menu = new cc.Menu;
+		menu.initWithItems(menuItems);
+		menu.alignItemsVerticallyWithPadding(50);
+		this.addChild(menu);
+		return true;
+	}
+});
+
+
 var viewScores=function(){
 	cc.director.runScene(new ScoreScene());
 }
@@ -896,15 +758,18 @@ var quitGame=function(){
 }
 
 var startGameMode1=function(){
-	cc.director.runScene(new GameMode1Scene());
+	creationGameMode=1;
+	cc.director.runScene(new LevelScene());
 }
 
 var startGameMode2=function(){
-	cc.director.runScene(new GameMode2Scene());
+	creationGameMode=2;
+	cc.director.runScene(new LevelScene());
 }
 
 var startGameMode3=function(){
-	cc.director.runScene(new GameMode3Scene());
+	creationGameMode=3;
+	cc.director.runScene(new LevelScene());
 }
 
 var ScoreLayer = cc.Layer.extend({
@@ -1032,22 +897,24 @@ var WinLayer = cc.Layer.extend({
 					ls.setItem(textField.string,30-levelScore);
 				}
 				var addedState=0;
-				var list=JSON.parse(ls.getItem("#Achievements"));
-				var names=JSON.parse(ls.getItem("#Names"));
-				for(i=0;i<list.length && addedState==0;i++){
-					if(names[i]==null || names[i]==textField.string){
-						names[i]=textField.string;
-						for(j=0;j<list[i].length;j++){
-							if(list[i][j]==null || list[i][j]=="Completed Mode "+currentMode.toString()){
-								list[i][j]="Completed Mode "+currentMode.toString();
-								addedState=1;
-								break;
+				if(currentLevel==modeLevels[currentMode-1]){
+					var list=JSON.parse(ls.getItem("#Achievements"));
+					var names=JSON.parse(ls.getItem("#Names"));
+					for(i=0;i<list.length && addedState==0;i++){
+						if(names[i]==null || names[i]==textField.string){
+							names[i]=textField.string;
+							for(j=0;j<list[i].length;j++){
+								if(list[i][j]==null || list[i][j]=="Completed Mode "+currentMode.toString()){
+									list[i][j]="Completed Mode "+currentMode.toString();
+									addedState=1;
+									break;
+								}
 							}
 						}
 					}
+					ls.setItem("#Names",JSON.stringify(names));
+					ls.setItem("#Achievements",JSON.stringify(list));
 				}
-				ls.setItem("#Names",JSON.stringify(names));
-				ls.setItem("#Achievements",JSON.stringify(list));
 				cc.director.runScene(new MenuScene());
 
 				break;
@@ -1062,6 +929,14 @@ var WinLayer = cc.Layer.extend({
 				
 				break;
 		}
+	}
+});
+
+var LevelScene = cc.Scene.extend({
+	onEnter:function () {
+		this._super();
+		var layer6 = new LevelLayer(creationGameMode);
+		this.addChild(layer6);
 	}
 });
 
@@ -1086,7 +961,6 @@ var MenuScene = cc.Scene.extend({
 		this._super();
 		var layer = new MenuLayer();
 		this.addChild(layer);
-
 	}
 });
 
@@ -1100,26 +974,205 @@ var WinScene = cc.Scene.extend({
 });
 
 
-var GameMode1Scene = cc.Scene.extend({
+var GameMode1Scene1 = cc.Scene.extend({
 	onEnter:function () {
 		this._super();
-		var layer2 = new GameMode1Layer();
+		var size=cc.winSize;
+		currentMode=1;
+		currentLevel=1;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
+		var boardarray=new Array(15);
+		for(i=0;i<15;i++){
+			boardarray[i]=new Array(15);
+			for(j=0;j<15;j++){
+				boardarray[i][j]=0;
+			}
+		}
+		for(i=4;i<8;i++){
+			for(j=4;j<7;j++){
+				boardarray[i][j]=1;
+			}
+		}
+		var board = new Board(boardarray);
+		var pieceList = new Array(5);
+		var noOfPieces=2;
+		var piece = new Piece(1,0,0);
+		var piece2 = new Piece(10,5,1);
+		board.belongPieces[0]=piece;
+		board.belongPieces[1]=piece2;
+		//Convention belongPieces[i] should have piece whose pieceNumber is i
+		var arr=new Array(3);
+		var arr2=new Array(3);
+		for(i=0;i<3;i++){
+			arr[i]=new Array(3);
+			arr2[i]=new Array(3);
+			for(j=0;j<3;j++){
+				arr2[i][j]=1;
+			}
+		}
+		arr[0][0]=1;
+		arr[0][1]=1;
+		arr[0][2]=1;
+		piece.initpositionarr(arr);
+		piece2.initpositionarr(arr2);
+		pieceList[0]=piece;
+		pieceList[1]=piece2;
+		var layer2 = new GameMode1Layer(board,pieceList,2);
 		this.addChild(layer2);
 	}
 });
 
-var GameMode2Scene = cc.Scene.extend({
+var GameMode2Scene1 = cc.Scene.extend({
 	onEnter:function(){
 		this._super();
-		var layer3=new GameMode2Layer();
+		var size=cc.winSize;
+		currentMode=2;
+		currentLevel=1;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
+		/////////////////////////////
+		// 2. add a menu item with "X" image, which is clicked to quit the program
+		//    you may modify it.
+		// ask the window size
+
+
+		//(0,0) is the bottom left point.
+		var boardarray=new Array(15);
+		for(i=0;i<15;i++){
+			boardarray[i]=new Array(15);
+			for(j=0;j<15;j++){
+				boardarray[i][j]=0;
+			}
+		}
+		for(i=4;i<8;i++){
+			for(j=4;j<7;j++){
+				boardarray[i][j]=1;
+			}
+		}
+		var board = new Board(boardarray);
+		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
+		var pieceList = new Array(5);
+		var noOfPieces=3;
+		var piece = new Piece(1,0,0);
+		var piece2 = new Piece(10,5,1);
+		var piece3 = new Piece(12,1,2);
+		board.belongPieces[0]=piece;
+		board.belongPieces[1]=piece2;
+		board.belongPieces[2]=piece3;
+		//var piece3 = new Piece(7,1,2);
+		var arr=new Array(3);
+		var arr2=new Array(3);
+		var arr3=new Array(3);
+		for(i=0;i<3;i++){
+			arr[i]=new Array(3);
+			arr2[i]=new Array(3);
+			arr3[i]=new Array(3);
+			for(j=0;j<3;j++){
+				arr2[i][j]=1;
+			}
+		}
+		arr[0][0]=1;
+		arr[0][1]=1;
+		arr[0][2]=1;
+		arr3[0][0]=1;
+		arr3[0][1]=1;
+		arr3[0][2]=1;
+		arr3[1][0]=1;
+		arr3[2][0]=1;
+		piece.initpositionarr(arr);
+		piece2.initpositionarr(arr2);
+		piece3.initpositionarr(arr3);
+		pieceList[0]=piece;
+		pieceList[1]=piece2;
+		pieceList[2]=piece3;
+		var layer3=new GameMode2Layer(board,pieceList,3);
 		this.addChild(layer3);
 	}
 });
 
-var GameMode3Scene = cc.Scene.extend({
+var GameMode3Scene1 = cc.Scene.extend({
 	onEnter:function(){
 		this._super();
-		var layer4=new GameMode3Layer();
+		var size=cc.winSize;
+		currentMode=3;
+		currentLevel=1;
+		totalOffsetX=size.width/2-150;
+		totalOffsetY=size.height/2-150;
+		/////////////////////////////
+		// 2. add a menu item with "X" image, which is clicked to quit the program
+		//    you may modify it.
+		// ask the window size
+
+
+		//(0,0) is the bottom left point.
+		var boardarray=new Array(15);
+		for(i=0;i<15;i++){
+			boardarray[i]=new Array(15);
+			for(j=0;j<15;j++){
+				boardarray[i][j]=0;
+			}
+		}
+		for(i=4;i<8;i++){
+			for(j=4;j<7;j++){
+				boardarray[i][j]=1;
+			}
+		}
+		for(i=9;i<13;i++){
+			for(j=9;j<12;j++){
+				boardarray[i][j]=1;
+			}
+		}
+		var board = new Board(boardarray);
+		//var board = new BoardSprite(res.CloseSelected_png,cc.rect(300,300,200,200));
+		var pieceList = new Array(5);
+		var noOfPieces=4;
+		var piece = new Piece(1,0,0);
+		var piece2 = new Piece(10,5,1);
+		var piece3 = new Piece(12,1,2);
+		var piece4 = new Piece(2,10,3);
+		board.belongPieces[0]=piece;
+		board.belongPieces[1]=piece2;
+		board.belongPieces[2]=piece3;
+		board.belongPieces[3]=piece4;
+		//var piece3 = new Piece(7,1,2);
+		var arr=new Array(3);
+		var arr2=new Array(3);
+		var arr3=new Array(3);
+		var arr4=new Array(3);
+		for(i=0;i<3;i++){
+			arr[i]=new Array(3);
+			arr2[i]=new Array(3);
+			arr3[i]=new Array(3);
+			arr4[i]=new Array(3);
+			for(j=0;j<3;j++){
+				arr2[i][j]=1;
+			}
+		}
+		arr[0][0]=1;
+		arr[0][1]=1;
+		arr[0][2]=1;
+		arr3[0][0]=1;
+		arr3[0][1]=1;
+		arr3[0][2]=1;
+		arr3[1][0]=1;
+		arr3[2][0]=1;
+		arr4[1][1]=1;
+		arr4[1][2]=1;
+		arr4[2][1]=1;
+		arr4[2][2]=1;
+		arr4[0][1]=1;
+		arr4[0][2]=1;
+		arr4[2][0]=1;
+		piece.initpositionarr(arr);
+		piece2.initpositionarr(arr2);
+		piece3.initpositionarr(arr3);
+		piece4.initpositionarr(arr4);
+		pieceList[0]=piece;
+		pieceList[1]=piece2;
+		pieceList[2]=piece3;
+		pieceList[3]=piece4;
+		var layer4=new GameMode3Layer(board,pieceList,4);
 		this.addChild(layer4);
 	}
 });
