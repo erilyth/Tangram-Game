@@ -4,7 +4,10 @@
 var totalOffsetX=0;
 var totalOffsetY=0;
 var levelScore=0;
-
+var mode1Levels=1;
+var mode2Levels=2;
+var mode3Levels=3;
+var currentMode=0;
 
 var Piece= cc.Class.extend({
 	color:"blue",
@@ -226,6 +229,7 @@ var GameMode1Layer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size=cc.winSize;
+		currentMode=1;
 		levelScore=0;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
@@ -423,6 +427,7 @@ var GameMode2Layer = cc.Layer.extend({
 		//////////////////////////////
 		// 1. super init first
 		this._super();
+		currentMode=2;
 		levelScore=0;
 		var size=cc.winSize;
 		totalOffsetX=size.width/2-150;
@@ -633,6 +638,7 @@ var GameMode3Layer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		levelScore=0;
+		currentMode=3;
 		var size=cc.winSize;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
@@ -867,9 +873,10 @@ var MenuLayer = cc.Layer.extend({
 		var menuItem1 = new cc.MenuItemFont("Play Mode 1", startGameMode1);
 		var menuItem2 = new cc.MenuItemFont("Play Mode 2", startGameMode2);
 		var menuItem3 = new cc.MenuItemFont("Play Mode 3", startGameMode3);
-		var menuItem4 = new cc.MenuItemFont("View Highscores", viewScores);
-		var menuItem5 = new cc.MenuItemFont("Quit", quitGame);
-		var menu = new cc.Menu(menuItem1,menuItem2,menuItem3,menuItem4,menuItem5);
+		var menuItem4 = new cc.MenuItemFont("View Scores", viewScores);
+		var menuItem5 = new cc.MenuItemFont("View Achievements", viewAchievements);
+		var menuItem6 = new cc.MenuItemFont("Quit", quitGame);
+		var menu = new cc.Menu(menuItem1,menuItem2,menuItem3,menuItem4,menuItem5,menuItem6);
 		menu.alignItemsVerticallyWithPadding(50);
 		this.addChild(menu);
 		return true;
@@ -878,6 +885,10 @@ var MenuLayer = cc.Layer.extend({
 
 var viewScores=function(){
 	cc.director.runScene(new ScoreScene());
+}
+
+var viewAchievements=function(){
+	cc.director.runScene(new AchievementScene());
 }
 
 var quitGame=function(){
@@ -906,19 +917,21 @@ var ScoreLayer = cc.Layer.extend({
 		var value;
 		var players=Object.keys(ls);
 		var temp;
+		var start=0;
 		for(temp=0;temp<players.length;temp++){
 			value=ls.getItem(players[temp]);
-			if(value!=null){
+			if(value!=null && players[temp]!="#Achievements" && players[temp]!="#Names"){
 				var label = new cc.LabelTTF(players[temp]+ " " +value,"Arial");
 				label.setFontSize(10);
-				label.setPosition(cc.p(size.width/2,size.height/2-50+temp*20));
+				label.setPosition(cc.p(size.width/2,size.height/2-50+start*20));
 				this.addChild(label);
+				start+=1;
 			}
 		}
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-130))
+		menu.setPosition(cc.p(size.width/2,size.height/2-170))
 		this.addChild(menu);
 		return true;
 	},
@@ -927,6 +940,56 @@ var ScoreLayer = cc.Layer.extend({
 var goToMenu=function(){
 	cc.director.runScene(new MenuScene());
 }
+
+var AchievementLayer = cc.Layer.extend({
+	ctor:function () {
+		//////////////////////////////
+		// 1. super init first
+		this._super();
+		var size = cc.winSize;
+		var ls= cc.sys.localStorage;
+		var value;
+		var list = new Array(100);
+		var names = new Array(100);
+		for(i=0;i<100;i++){
+			list[i] = new Array(100);
+		}
+		//If you want to reset the achievements and names, remove the if statement below and view the achievements page.
+		if(ls.getItem("#Achievements")==null || ls.getItem("#Names")==null){
+			ls.setItem("#Names",JSON.stringify(names)); //We use JSON to store arrays as strings.
+			ls.setItem("#Achievements",JSON.stringify(list)); //We use JSON to store arrays as strings.
+		}
+		names=JSON.parse(ls.getItem("#Names"));
+		list=JSON.parse(ls.getItem("#Achievements"));
+		cc.log(list);
+		var temp;
+		var state=0;
+		for(temp=0;temp<list.length;temp++){
+			state=0;
+			for(temp2=0;temp2<list[temp].length;temp2++){
+				if(list[temp][temp2]!=null){
+					if(state==0){
+						var label = new cc.LabelTTF(names[temp],"Arial");
+						label.setFontSize(10);
+						label.setPosition(cc.p(size.width/2-300,size.height/2-50+temp*20));
+						this.addChild(label);
+						state=1;
+					}
+					var label2 = new cc.LabelTTF(list[temp][temp2],"Arial");
+					label2.setFontSize(10);
+					label2.setPosition(cc.p(size.width/2-300+(temp2+1)*100,size.height/2-50+temp*20));
+					this.addChild(label2);
+				}
+			}
+		}
+		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menu = new cc.Menu(menuItem);
+		menu.alignItemsVerticallyWithPadding(50);
+		menu.setPosition(cc.p(size.width/2,size.height/2-170))
+		this.addChild(menu);
+		return true;
+	},
+});
 
 var WinLayer = cc.Layer.extend({
 	ctor:function () {
@@ -948,8 +1011,8 @@ var WinLayer = cc.Layer.extend({
 		textField.x = size.width/2;
 		textField.y = size.height/2+100;
 		textField.addEventListener(this.textFieldEvent, this);
-		var label = new cc.LabelTTF(levelScore, "Lobster", 28);
-		label.setPosition(cc.p(size.width/2,size.height/2-40));
+		var label = new cc.LabelTTF(30-levelScore, "Lobster", 28);
+		label.setPosition(cc.p(size.width/2,size.height/2-70));
 		this.addChild(label);
 		this.addChild(textField);
 		return true;
@@ -964,7 +1027,27 @@ var WinLayer = cc.Layer.extend({
 				break;
 			case ccui.TextField.EVENT_DETACH_WITH_IME:
 				var ls = cc.sys.localStorage;
-				ls.setItem(textField.string,30-levelScore);
+				var cur = ls.getItem(textField.string);
+				if(cur==null || cur<30-levelScore ){
+					ls.setItem(textField.string,30-levelScore);
+				}
+				var addedState=0;
+				var list=JSON.parse(ls.getItem("#Achievements"));
+				var names=JSON.parse(ls.getItem("#Names"));
+				for(i=0;i<list.length && addedState==0;i++){
+					if(names[i]==null || names[i]==textField.string){
+						names[i]=textField.string;
+						for(j=0;j<list[i].length;j++){
+							if(list[i][j]==null || list[i][j]=="Completed Mode "+currentMode.toString()){
+								list[i][j]="Completed Mode "+currentMode.toString();
+								addedState=1;
+								break;
+							}
+						}
+					}
+				}
+				ls.setItem("#Names",JSON.stringify(names));
+				ls.setItem("#Achievements",JSON.stringify(list));
 				cc.director.runScene(new MenuScene());
 
 				break;
@@ -987,6 +1070,14 @@ var ScoreScene = cc.Scene.extend({
 		this._super();
 		var layer5 = new ScoreLayer();
 		this.addChild(layer5);
+	}
+});
+
+var AchievementScene = cc.Scene.extend({
+	onEnter:function () {
+		this._super();
+		var layer6 = new AchievementLayer();
+		this.addChild(layer6);
 	}
 });
 
