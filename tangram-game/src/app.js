@@ -104,7 +104,7 @@ var Piece= cc.Class.extend({
 			for(i=0;i<3;i++){
 				for(j=0;j<3;j++){
 					if(this.positionarr[i][j]==1){
-						var actionMove = cc.MoveTo.create(0, cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
+						var actionMove = cc.MoveTo.create(0, new cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 						this.spriteBlocks[i][j].runAction(actionMove);
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
 					}
@@ -308,7 +308,7 @@ var GameMode1Layer = cc.Layer.extend({
 										clickOffsetXBlock=0;
 										clickOffsetYBlock=0;
 									}
-									var click=cc.p(touch.getLocationX(),touch.getLocationY());
+									var click=new cc.p(touch.getLocationX(),touch.getLocationY());
 									var x=Math.floor((touch.getLocationX()-totalOffsetX)/20);
 									var y=Math.floor((touch.getLocationY()-totalOffsetY)/20);
 									cc.log(x + " " + y + " Clicked at")
@@ -375,7 +375,7 @@ var GameMode1Layer = cc.Layer.extend({
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
 		this.addChild(menu);
 		return true;
 	}
@@ -407,7 +407,7 @@ var GameMode2Layer = cc.Layer.extend({
 		for(k=0;k<noOfPieces;k++){
 			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
 		}
-		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
+		//var actionmove = cc.MoveTo.create(1, new cc.p(300,300));
 		//piece.spriteBlocks[0][0].runAction(actionmove);
 		//piece.placePiece(1,4,board);
 		//piece2.placePiece(6,7,board);
@@ -463,7 +463,7 @@ var GameMode2Layer = cc.Layer.extend({
 										clickOffsetXBlock=0;
 										clickOffsetYBlock=0;
 									}
-									var click=cc.p(touch.getLocationX(),touch.getLocationY());
+									var click=new cc.p(touch.getLocationX(),touch.getLocationY());
 									var x=Math.floor((touch.getLocationX()-totalOffsetX)/20);
 									var y=Math.floor((touch.getLocationY()-totalOffsetY)/20);
 									cc.log(x + " " + y + " Clicked at")
@@ -530,7 +530,7 @@ var GameMode2Layer = cc.Layer.extend({
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
 		this.addChild(menu);
 		return true;
 	}
@@ -562,7 +562,7 @@ var GameMode3Layer = cc.Layer.extend({
 		for(k=0;k<noOfPieces;k++){
 			pieceList[k].placePiece(pieceList[k].basePositionX,pieceList[k].basePositionY,board);
 		}
-		//var actionmove = cc.MoveTo.create(1, cc.p(300,300));
+		//var actionmove = cc.MoveTo.create(1, new cc.p(300,300));
 		//piece.spriteBlocks[0][0].runAction(actionmove);
 		//piece.placePiece(1,4,board);
 		//piece2.placePiece(6,7,board);
@@ -618,7 +618,7 @@ var GameMode3Layer = cc.Layer.extend({
 										clickOffsetXBlock=0;
 										clickOffsetYBlock=0;
 									}
-									var click=cc.p(touch.getLocationX(),touch.getLocationY());
+									var click=new cc.p(touch.getLocationX(),touch.getLocationY());
 									var x=Math.floor((touch.getLocationX()-totalOffsetX)/20);
 									var y=Math.floor((touch.getLocationY()-totalOffsetY)/20);
 									cc.log(x + " " + y + " Clicked at")
@@ -685,7 +685,7 @@ var GameMode3Layer = cc.Layer.extend({
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-180))
+		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
 		this.addChild(menu);
 		return true;
 	}
@@ -699,7 +699,7 @@ var MenuLayer = cc.Layer.extend({
 		var size = cc.winSize;
 		var sprite = new cc.Sprite.create(res.Board_png);
 		sprite.setAnchorPoint(new cc.p(0.5,0.5));
-		sprite.setPosition(cc.p(size.width/2,size.height/2));
+		sprite.setPosition(new cc.p(size.width/2,size.height/2));
 		sprite.setScaleX(0.5);
 		sprite.setScaleY(0.2);
 		var menuItem1 = new cc.MenuItemFont("Play Mode 1", startGameMode1);
@@ -802,7 +802,7 @@ var ScoreLayer = cc.Layer.extend({
 			if(playerNames[temp]!=null){
 				var label = new cc.LabelTTF(playerNames[temp]+ " " +playerScores[temp],"Arial");
 				label.setFontSize(10);
-				label.setPosition(cc.p(size.width/2,size.height/2-50+start*20));
+				label.setPosition(new cc.p(size.width/2,size.height/2-50+start*20));
 				this.addChild(label);
 				start+=1;
 			}
@@ -810,7 +810,7 @@ var ScoreLayer = cc.Layer.extend({
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-170))
+		menu.setPosition(new cc.p(size.width/2,size.height/2-170))
 		this.addChild(menu);
 		return true;
 	},
@@ -854,13 +854,13 @@ var AchievementLayer = cc.Layer.extend({
 					if(state==0){
 						var label = new cc.LabelTTF(names[temp],"Arial");
 						label.setFontSize(10);
-						label.setPosition(cc.p(size.width/2-300,size.height/2-50+temp*20));
+						label.setPosition(new cc.p(size.width/2-300,size.height/2-50+temp*20));
 						this.addChild(label);
 						state=1;
 					}
 					var label2 = new cc.LabelTTF(list[temp][temp2],"Arial");
 					label2.setFontSize(10);
-					label2.setPosition(cc.p(size.width/2-300+(temp2+1)*100,size.height/2-50+temp*20));
+					label2.setPosition(new cc.p(size.width/2-300+(temp2+1)*100,size.height/2-50+temp*20));
 					this.addChild(label2);
 				}
 			}
@@ -868,7 +868,7 @@ var AchievementLayer = cc.Layer.extend({
 		var menuItem = new cc.MenuItemFont("Back", goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
-		menu.setPosition(cc.p(size.width/2,size.height/2-170))
+		menu.setPosition(new cc.p(size.width/2,size.height/2-170))
 		this.addChild(menu);
 		return true;
 	},
@@ -881,10 +881,10 @@ var WinLayer = cc.Layer.extend({
 		this._super();
 		var size = cc.winSize;
 		/*r sprite = new cc.Sprite.create(res.Board_png);
-		sprite.setAnchorPoint(new cc.p(0.5,0.5));*/
+		sprite.setAnchorPoint(new new cc.p(0.5,0.5));*/
 		var sprite = new cc.Sprite.create(res.Youwin_png);
 		sprite.setAnchorPoint(new cc.p(0.5,0.5));
-		sprite.setPosition(cc.p(size.width/2,size.height/2));
+		sprite.setPosition(new cc.p(size.width/2,size.height/2));
 		sprite.setScaleX(0.5);
 		sprite.setScaleY(0.5);
 		this.addChild(sprite);
@@ -897,7 +897,7 @@ var WinLayer = cc.Layer.extend({
 		textField.y = size.height/2+100;
 		textField.addEventListener(this.textFieldEvent, this);
 		var label = new cc.LabelTTF(30-levelScore, "Lobster", 28);
-		label.setPosition(cc.p(size.width/2,size.height/2-70));
+		label.setPosition(new cc.p(size.width/2,size.height/2-70));
 		this.addChild(label);
 		this.addChild(textField);
 		return true;

@@ -4,7 +4,7 @@ var res = {
     PlaceBoard_png: "res/PlaceBoard.png",
     CloseNormal_png : "res/CloseNormal.png",
     CloseSelected_png : "res/CloseSelected.png",
-    Youwin_png : "res/you-win.png"
+    Youwin_png : "res/You-Win.png"
 };
 
 var g_resources = [];
