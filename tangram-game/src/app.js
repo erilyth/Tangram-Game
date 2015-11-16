@@ -786,13 +786,21 @@ var ScoreLayer = cc.Layer.extend({
 		var size = cc.winSize;
 		var ls= cc.sys.localStorage;
 		var value;
-		var players=Object.keys(ls);
+		var ls = cc.sys.localStorage;
+		if (ls.getItem("#playerNames") == null){
+			var list1 = new Array(100);
+			var list2 = new Array(100);
+			ls.setItem("#playerNames",JSON.stringify(list1));
+			ls.setItem("#playerScores",JSON.stringify(list2));
+		}
+		var playerNames = JSON.parse(ls.getItem("#playerNames"));
+		var playerScores = JSON.parse(ls.getItem("#playerScores"));
+		//cc.log(playerNames);
 		var temp;
 		var start=0;
-		for(temp=0;temp<players.length;temp++){
-			value=ls.getItem(players[temp]);
-			if(value!=null && players[temp]!="#Achievements" && players[temp]!="#Names"){
-				var label = new cc.LabelTTF(players[temp]+ " " +value,"Arial");
+		for(temp=0;temp<playerNames.length;temp++){
+			if(playerNames[temp]!=null){
+				var label = new cc.LabelTTF(playerNames[temp]+ " " +playerScores[temp],"Arial");
 				label.setFontSize(10);
 				label.setPosition(cc.p(size.width/2,size.height/2-50+start*20));
 				this.addChild(label);
@@ -827,6 +835,10 @@ var AchievementLayer = cc.Layer.extend({
 		}
 		//If you want to reset the achievements and names, remove the if statement below and view the achievements page.
 		if(ls.getItem("#Achievements")==null || ls.getItem("#Names")==null){
+			var names = new Array(100);
+			for(i=0;i<100;i++){
+				list[i] = new Array(100);
+			}
 			ls.setItem("#Names",JSON.stringify(names)); //We use JSON to store arrays as strings.
 			ls.setItem("#Achievements",JSON.stringify(list)); //We use JSON to store arrays as strings.
 		}
@@ -899,13 +911,43 @@ var WinLayer = cc.Layer.extend({
 				
 				break;
 			case ccui.TextField.EVENT_DETACH_WITH_IME:
+				cc.log("DeActivate");
 				var ls = cc.sys.localStorage;
-				var cur = ls.getItem(textField.string);
-				if(cur==null || cur<30-levelScore ){
-					ls.setItem(textField.string,30-levelScore);
+				var cur = textField.string;
+				if (ls.getItem("#playerNames") == null){
+					var list1 = new Array(100);
+					var list2 = new Array(100);
+					ls.setItem("#playerNames",JSON.stringify(list1));
+					ls.setItem("#playerScores",JSON.stringify(list2));
 				}
+				var state=0;
+				var playerNamesList=JSON.parse(ls.getItem("#playerNames"));
+				var playerScoresList=JSON.parse(ls.getItem("#playerScores"));
+				for(i=0;i<playerNamesList.length;i++){
+					if(playerNamesList[i]==cur || playerNamesList[i]==null){
+						state=1;
+						playerNamesList[i]=cur;
+						cc.log(playerNamesList[i]);
+						if(playerScoresList[i]<30-levelScore){
+							playerScoresList[i]=30-levelScore;
+						}
+						break;
+					}
+				}
+				//cc.log(cur);
+				ls.setItem("#playerNames",JSON.stringify(playerNamesList));
+				ls.setItem("#playerScores",JSON.stringify(playerScoresList));
 				var addedState=0;
 				if(currentLevel==modeLevels[currentMode-1]){
+					if (ls.getItem("#Achivements") === null) {
+						var list = new Array(100);
+						var names = new Array(100);
+						for(i=0;i<100;i++){
+							list[i] = new Array(100);
+						}
+						ls.setItem("#Names",JSON.stringify(names));
+						ls.setItem("#Achievements",JSON.stringify(list));
+					}
 					var list=JSON.parse(ls.getItem("#Achievements"));
 					var names=JSON.parse(ls.getItem("#Names"));
 					for(i=0;i<list.length && addedState==0;i++){
