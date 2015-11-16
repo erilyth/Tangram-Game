@@ -43,7 +43,7 @@ var Piece= cc.Class.extend({
 					this.madeUpCount+=1;
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
 					this.positionarr[i][j]=1;
-					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
+					this.spriteBlocks[i][j].setPosition(new cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
 					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 				}
@@ -736,8 +736,8 @@ var LevelLayer = cc.Layer.extend({
 				}
 			);
 		}
-		var menu = new cc.Menu;
-		menu.initWithItems(menuItems);
+		var menu = new cc.Menu(menuItems[0]);
+		//menu.initWithItems(menuItems);
 		menu.alignItemsVerticallyWithPadding(50);
 		this.addChild(menu);
 		return true;
