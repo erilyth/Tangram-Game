@@ -296,6 +296,81 @@ var GameMode1Layer = cc.Layer.extend({
 					},this);
 		}
 		
+		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseDown:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								for(k=0;k<noOfPieces;k++){
+									//cc.log(event.getLocationX());
+									if(pieceSelected==-1){
+										clickOffsetXBlock=0;
+										clickOffsetYBlock=0;
+									}
+									var click=cc.p(event.getLocationX(),event.getLocationY());
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
+									for(i=0;i<3;i++){
+										for(j=0;j<3;j++){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
+												originalBaseX=pieceList[k].basePositionX;
+												originalBaseY=pieceList[k].basePositionY;
+												pieceSelected=k;
+												recentPiece=k;
+												clickOffsetXBlock=i;
+												clickOffsetYBlock=j;
+											}
+										}
+									}
+									//cc.log("Left mouse clicked at "+event.getLocationX());
+								}
+							}
+						},
+						onMouseMove: function (event) {         
+							//Move the position of current button sprite
+							if(pieceSelected!=-1){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[pieceSelected].positionarr[i][j]==1){
+											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
+											var delta = event.getDelta();
+											target.x += delta.x;
+											target.y += delta.y;
+											pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
+										}
+									}
+								}
+							}
+						},
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								if(pieceSelected!=-1){
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
+									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
+										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
+									}
+									else{
+										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
+									}
+									pieceSelected=-1;
+								}
+								if(board.checkVictory()==1){
+									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
+								}
+								//cc.log("Left mouse released at "+event.getLocationX());
+							}
+						}
+
+					}, this);
+		}
+		
 		if (cc.sys.capabilities.hasOwnProperty('touches')){ //Set up mouse events
 			cc.eventManager.addListener(
 					{
@@ -451,6 +526,81 @@ var GameMode2Layer = cc.Layer.extend({
 					},this);
 		}
 		
+		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseDown:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								for(k=0;k<noOfPieces;k++){
+									//cc.log(event.getLocationX());
+									if(pieceSelected==-1){
+										clickOffsetXBlock=0;
+										clickOffsetYBlock=0;
+									}
+									var click=cc.p(event.getLocationX(),event.getLocationY());
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
+									for(i=0;i<3;i++){
+										for(j=0;j<3;j++){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
+												originalBaseX=pieceList[k].basePositionX;
+												originalBaseY=pieceList[k].basePositionY;
+												pieceSelected=k;
+												recentPiece=k;
+												clickOffsetXBlock=i;
+												clickOffsetYBlock=j;
+											}
+										}
+									}
+									//cc.log("Left mouse clicked at "+event.getLocationX());
+								}
+							}
+						},
+						onMouseMove: function (event) {         
+							//Move the position of current button sprite
+							if(pieceSelected!=-1){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[pieceSelected].positionarr[i][j]==1){
+											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
+											var delta = event.getDelta();
+											target.x += delta.x;
+											target.y += delta.y;
+											pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
+										}
+									}
+								}
+							}
+						},
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								if(pieceSelected!=-1){
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
+									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
+										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
+									}
+									else{
+										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
+									}
+									pieceSelected=-1;
+								}
+								if(board.checkVictory()==1){
+									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
+								}
+								//cc.log("Left mouse released at "+event.getLocationX());
+							}
+						}
+
+					}, this);
+		}
+		
 		if (cc.sys.capabilities.hasOwnProperty('touches')){ //Set up mouse events
 			cc.eventManager.addListener(
 					{
@@ -604,6 +754,81 @@ var GameMode3Layer = cc.Layer.extend({
 							}
 						}
 					},this);
+		}
+		
+		if (cc.sys.capabilities.hasOwnProperty('mouse')){ //Set up mouse events
+			cc.eventManager.addListener(
+					{
+						event: cc.EventListener.MOUSE,
+						onMouseDown:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								for(k=0;k<noOfPieces;k++){
+									//cc.log(event.getLocationX());
+									if(pieceSelected==-1){
+										clickOffsetXBlock=0;
+										clickOffsetYBlock=0;
+									}
+									var click=cc.p(event.getLocationX(),event.getLocationY());
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x + " " + y + " Clicked at")
+									for(i=0;i<3;i++){
+										for(j=0;j<3;j++){
+											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
+												originalBaseX=pieceList[k].basePositionX;
+												originalBaseY=pieceList[k].basePositionY;
+												pieceSelected=k;
+												recentPiece=k;
+												clickOffsetXBlock=i;
+												clickOffsetYBlock=j;
+											}
+										}
+									}
+									//cc.log("Left mouse clicked at "+event.getLocationX());
+								}
+							}
+						},
+						onMouseMove: function (event) {         
+							//Move the position of current button sprite
+							if(pieceSelected!=-1){
+								for(i=0;i<3;i++){
+									for(j=0;j<3;j++){
+										if(pieceList[pieceSelected].positionarr[i][j]==1){
+											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
+											var delta = event.getDelta();
+											target.x += delta.x;
+											target.y += delta.y;
+											pieceList[pieceSelected].spriteBlocks[i][j].setPosition(target);
+										}
+									}
+								}
+							}
+						},
+						onMouseUp:function(event){
+							if (event.getButton() == cc.EventMouse.BUTTON_LEFT){
+								if(pieceSelected!=-1){
+									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
+									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
+									cc.log(x+" "+y);
+									cc.log((x-clickOffsetXBlock) + " " + (y-clickOffsetYBlock) + " Left at")
+									if(pieceList[pieceSelected].checkPiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board)==1){
+										pieceList[pieceSelected].placePiece(x-clickOffsetXBlock,y-clickOffsetYBlock,board);
+										levelScore+=1;
+									}
+									else{
+										pieceList[pieceSelected].placePiece(originalBaseX,originalBaseY,board);
+									}
+									pieceSelected=-1;
+								}
+								if(board.checkVictory()==1){
+									cc.log("YOU WIN!");
+									cc.director.runScene(new WinScene());
+								}
+								//cc.log("Left mouse released at "+event.getLocationX());
+							}
+						}
+
+					}, this);
 		}
 		
 		if (cc.sys.capabilities.hasOwnProperty('touches')){ //Set up mouse events
