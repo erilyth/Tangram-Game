@@ -29,16 +29,16 @@ var Piece= cc.Class.extend({
 	oldarr:[],
 	spriteBlocks:[],
 	initpositionarr:function(posarr){
-		this.positionarr=new Array(3);
-		this.oldarr=new Array(3);
-		this.rotatedarr=new Array(3);
-		this.spriteBlocks=new Array(3);
-		for(i=0;i<3;i++){
-			this.oldarr[i]=new Array(3);
-			this.spriteBlocks[i]= new Array(3);
-			this.rotatedarr[i]=new Array(3);
-			this.positionarr[i]=new Array(3);
-			for(j=0;j<3;j++){
+		this.positionarr=new Array(posarr.length);
+		this.oldarr=new Array(posarr.length);
+		this.rotatedarr=new Array(posarr.length);
+		this.spriteBlocks=new Array(posarr.length);
+		for(i=0;i<posarr.length;i++){
+			this.oldarr[i]=new Array(posarr.length);
+			this.spriteBlocks[i]= new Array(posarr.length);
+			this.rotatedarr[i]=new Array(posarr.length);
+			this.positionarr[i]=new Array(posarr.length);
+			for(j=0;j<posarr.length;j++){
 				if(posarr[i][j]==1){
 					this.madeUpCount+=1;
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
@@ -67,8 +67,8 @@ var Piece= cc.Class.extend({
 		//cc.log(a);
 		//cc.log(b);
 		var state=0;
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		for(i=0;i<this.positionarr.length;i++){
+			for(j=0;j<this.positionarr[i].length;j++){
 				if(i+a<0)
 					state=1;
 				else if(i+a>=15)
@@ -92,8 +92,8 @@ var Piece= cc.Class.extend({
 	},
 	placePiece:function(a,b,boardObj){
 		if(this.checkPiece(a,b,boardObj)==1){
-			for(i=0;i<3;i++){
-				for(j=0;j<3;j++){
+			for(i=0;i<this.positionarr.length;i++){
+				for(j=0;j<this.positionarr[i].length;j++){
 					if(this.positionarr[i][j]==1){
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=-1;
 					}
@@ -101,8 +101,8 @@ var Piece= cc.Class.extend({
 			}
 			this.basePositionX=a;
 			this.basePositionY=b;
-			for(i=0;i<3;i++){
-				for(j=0;j<3;j++){
+			for(i=0;i<this.positionarr.length;i++){
+				for(j=0;j<this.positionarr[i].length;j++){
 					if(this.positionarr[i][j]==1){
 						var actionMove = cc.MoveTo.create(0, new cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 						this.spriteBlocks[i][j].runAction(actionMove);
@@ -116,27 +116,27 @@ var Piece= cc.Class.extend({
 		//}
 	},
 	rotatePiece:function(dir,boardObj){
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		for(i=0;i<this.positionarr.length;i++){
+			for(j=0;j<this.positionarr[i].length;j++){
 				this.oldarr[i][j]=this.positionarr[i][j];
 				this.rotatedarr[i][j]=this.positionarr[2-j][i];
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		for(i=0;i<this.positionarr.length;i++){
+			for(j=0;j<this.positionarr[i].length;j++){
 				this.positionarr[i][j]=this.rotatedarr[i][j];
 			}
 		}
 		if(this.checkPiece(this.basePositionX,this.basePositionY,boardObj)==1){
-			for(i=0;i<3;i++){
-				for(j=0;j<3;j++){
+			for(i=0;i<this.positionarr.length;i++){
+				for(j=0;j<this.positionarr[i].length;j++){
 					if(this.oldarr[i][j]==1){
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=-1;
 					}
 				}
 			}
-			for(i=0;i<3;i++){
-				for(j=0;j<3;j++){
+			for(i=0;i<this.positionarr.length;i++){
+				for(j=0;j<this.positionarr[i].length;j++){
 					if(this.positionarr[i][j]==1){
 						boardObj.positionarr[i+this.basePositionX][j+this.basePositionY]=this.pieceNumber;
 					}
@@ -144,14 +144,14 @@ var Piece= cc.Class.extend({
 			}
 		}
 		else{
-			for(i=0;i<3;i++){
-				for(j=0;j<3;j++){
+			for(i=0;i<this.positionarr.length;i++){
+				for(j=0;j<this.positionarr[i].length;j++){
 					this.positionarr[i][j]=this.oldarr[i][j];
 				}
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		for(i=0;i<this.positionarr.length;i++){
+			for(j=0;j<this.positionarr[i].length;j++){
 				if(this.positionarr[i][j]==1){
 					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
 					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
@@ -245,8 +245,10 @@ var GameMode1Layer = cc.Layer.extend({
 				this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		var sizex=pieceList[0].positionarr.length;
+		var sizey=pieceList[0].positionarr[0].length;
+		for(i=0;i<sizex;i++){
+			for(j=0;j<sizey;j++){
 				for(k=0;k<noOfPieces;k++){
 					if(pieceList[k].positionarr[i][j]==1){
 						this.addChild(pieceList[k].spriteBlocks[i][j]);
@@ -272,16 +274,16 @@ var GameMode1Layer = cc.Layer.extend({
 						onKeyPressed:function(key,event){
 							if(key==68){
 								levelScore+=1;
-								for(i=0;i<3;i++){
-									for(j=0;j<3;j++){
+								for(i=0;i<4;i++){
+									for(j=0;j<4;j++){
 										if(pieceList[recentPiece].positionarr[i][j]==1){
 											reference.removeChild(pieceList[recentPiece].spriteBlocks[i][j]);
 										}
 									}
 								}
 								pieceList[recentPiece].rotatePiece(0,board);
-								for(i=0;i<3;i++){
-									for(j=0;j<3;j++){
+								for(i=0;i<4;i++){
+									for(j=0;j<4;j++){
 										if(pieceList[recentPiece].positionarr[i][j]==1){
 											reference.addChild(pieceList[recentPiece].spriteBlocks[i][j]);
 										}
@@ -312,8 +314,8 @@ var GameMode1Layer = cc.Layer.extend({
 									var x=Math.floor((event.getLocationX()-totalOffsetX)/20);
 									var y=Math.floor((event.getLocationY()-totalOffsetY)/20);
 									cc.log(x + " " + y + " Clicked at")
-									for(i=0;i<3;i++){
-										for(j=0;j<3;j++){
+									for(i=0;i<4;i++){
+										for(j=0;j<4;j++){
 											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.Rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
@@ -331,8 +333,8 @@ var GameMode1Layer = cc.Layer.extend({
 						onMouseMove: function (event) {         
 							//Move the position of current button sprite
 							if(pieceSelected!=-1){
-								for(i=0;i<3;i++){
-									for(j=0;j<3;j++){
+								for(i=0;i<4;i++){
+									for(j=0;j<4;j++){
 										if(pieceList[pieceSelected].positionarr[i][j]==1){
 											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
 											var delta = event.getDelta();
@@ -387,8 +389,8 @@ var GameMode1Layer = cc.Layer.extend({
 									var x=Math.floor((touch.getLocationX()-totalOffsetX)/20);
 									var y=Math.floor((touch.getLocationY()-totalOffsetY)/20);
 									cc.log(x + " " + y + " Clicked at")
-									for(i=0;i<3;i++){
-										for(j=0;j<3;j++){
+									for(i=0;i<4;i++){
+										for(j=0;j<4;j++){
 											if(pieceList[k].positionarr[i][j]==1 && cc.rectContainsPoint(new cc.rect(totalOffsetX+(pieceList[k].basePositionX+i)*20,totalOffsetY+(pieceList[k].basePositionY+j)*20,20,20),click)){
 												originalBaseX=pieceList[k].basePositionX;
 												originalBaseY=pieceList[k].basePositionY;
@@ -407,8 +409,8 @@ var GameMode1Layer = cc.Layer.extend({
 						onTouchMoved: function (touch, event) {         
 							//Move the position of current button sprite
 							if(pieceSelected!=-1){
-								for(i=0;i<3;i++){
-									for(j=0;j<3;j++){
+								for(i=0;i<4;i++){
+									for(j=0;j<4;j++){
 										if(pieceList[pieceSelected].positionarr[i][j]==1){
 											var target=pieceList[pieceSelected].spriteBlocks[i][j].getPosition();
 											var delta = touch.getDelta();
@@ -470,8 +472,10 @@ var GameMode2Layer = cc.Layer.extend({
 				this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		var sizex=pieceList[0].positionarr.length;
+		var sizey=pieceList[0].positionarr[0].length;
+		for(i=0;i<sizex;i++){
+			for(j=0;j<sizey;j++){
 				for(k=0;k<noOfPieces;k++){
 					if(pieceList[k].positionarr[i][j]==1){
 						this.addChild(pieceList[k].spriteBlocks[i][j]);
@@ -700,8 +704,10 @@ var GameMode3Layer = cc.Layer.extend({
 				this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
+		var sizex=pieceList[0].positionarr.length;
+		var sizey=pieceList[0].positionarr[0].length;
+		for(i=0;i<sizex;i++){
+			for(j=0;j<sizey;j++){
 				for(k=0;k<noOfPieces;k++){
 					if(pieceList[k].positionarr[i][j]==1){
 						this.addChild(pieceList[k].spriteBlocks[i][j]);
@@ -864,7 +870,7 @@ var GameMode3Layer = cc.Layer.extend({
 			//				}
 								return true;
 						},
-						onTouchMoved: function (event) {         
+						onTouchMoved: function (touch, event) {         
 							//Move the position of current button sprite
 							if(pieceSelected!=-1){
 								for(i=0;i<3;i++){
@@ -1164,7 +1170,8 @@ var WinLayer = cc.Layer.extend({
 				ls.setItem("#playerScores",JSON.stringify(playerScoresList));
 				var addedState=0;
 				if(currentLevel==modeLevels[currentMode-1]){
-					if (ls.getItem("#Achivements") === null) {
+					if (ls.getItem("#Achievements") == null) {
+						cc.log("Clearing");
 						var list = new Array(100);
 						var names = new Array(100);
 						for(i=0;i<100;i++){
@@ -1257,43 +1264,123 @@ var GameMode1Scene1 = cc.Scene.extend({
 		currentLevel=1;
 		totalOffsetX=size.width/2-150;
 		totalOffsetY=size.height/2-150;
-		var boardarray=new Array(15);
-		for(i=0;i<15;i++){
-			boardarray[i]=new Array(15);
-			for(j=0;j<15;j++){
-				boardarray[i][j]=0;
+		
+		var temparr = new Array(15);
+		var numofpieces=2;
+		var arr = new Array(15);
+		var kk;
+		for(kk=0;kk<15;kk++){
+			arr[kk]=new Array(15);
+			temparr[kk]=new Array(15);
+			var jj;
+			for(jj=0;jj<15;jj++){
+				temparr[kk][jj]=0;
 			}
 		}
-		for(i=4;i<8;i++){
-			for(j=4;j<7;j++){
-				boardarray[i][j]=1;
+		var i,j;
+		var status=0;
+		var i,j,k,a,b,c,n,m;
+		var state=0;
+		while(state==0){
+			for(i=1;i<=4;i++){
+				for(j=1;j<=3;j++){
+					cc.log(Math.random()*10);
+					arr[i][j]=Math.floor(Math.random()*10)%numofpieces+1;
+					//arr[i][j]=1;
+				}
+			}
+			for(k=0;k<1;k++){
+				for(i=1;i<=4;i++){
+					for(j=1;j<=3;j++){
+						var arr2 = new Array(100);
+						var ii;
+						for(ii=0;ii<100;ii++){
+							arr2[ii]=0;
+						}
+						var i1,j1;
+						for(i1=0;i1<3;i1++){
+							for(j1=0;j1<3;j1++){
+								arr2[arr[i+i1-1][j+j1-1]]+=1;
+							}
+						}
+						var maxx=0;
+						var val=0;
+						for(i1=1;i1<=numofpieces;i1++){
+							if(arr2[i1]>maxx)
+							{
+								maxx=arr2[i1];
+								val=i1;
+							}
+						}
+						arr[i][j]=val;
+					}
+				}
+			}
+			var statis=0;
+			for(i=1;i<=4;i++){
+				for(j=1;j<=3;j++){
+					if(arr[i][j]!=arr[1][1]){
+						statis=1;;
+					}
+				}
+			}
+			if(statis==0)
+				state=0;
+			else
+				state=1;
+		}
+		//cc.log(arr);
+		var vi,vj,vk;
+		for(vi=5;vi<=8;vi++){
+			for(vj=5;vj<=7;vj++){
+				temparr[vi][vj]=1;
 			}
 		}
-		var board = new Board(boardarray);
+		
+		var board = new Board(temparr);
 		var pieceList = new Array(5);
-		var noOfPieces=2;
-		var piece = new Piece(1,0,0);
-		var piece2 = new Piece(10,5,1);
-		board.belongPieces[0]=piece;
-		board.belongPieces[1]=piece2;
-		//Convention belongPieces[i] should have piece whose pieceNumber is i
-		var arr=new Array(3);
-		var arr2=new Array(3);
-		for(i=0;i<3;i++){
-			arr[i]=new Array(3);
-			arr2[i]=new Array(3);
-			for(j=0;j<3;j++){
-				arr2[i][j]=1;
+		var noOfPieces=numofpieces;
+		for(i=1;i<=noOfPieces;i++){
+			//var x1=0;
+			//var x2=0;
+			var x1=Math.floor(Math.random()*10)%(5)+((i-1)*7);
+			var y1=Math.floor(Math.random()*10)%(5)+((i-1)*7);
+			var piece = new Piece(x1,y1,i-1);
+			board.belongPieces[i-1]=piece;
+			pieceList[i-1]=piece;
+			var arrpiec=new Array(4);
+			for(j=0;j<4;j++){
+				arrpiec[j]=new Array(4);
+				for(k=0;k<4;k++){
+					arrpiec[j][k]=0;
+				}
 			}
+			var statss=0;
+			var startx=0,starty=0;
+			for(j=1;j<=4;j++){
+				for(k=1;k<=3;k++){
+					if(arr[k][j]==i){
+						startx=k;
+						starty=j;
+						statss=1;
+					}
+				}
+			}
+			//cc.log("YOYO");
+			//cc.log(arr);
+			for(j=1;j<=4;j++){
+				for(k=1;k<=3;k++){
+					//cc.log(arr[j][k]);
+					if(arr[j][k]==i){
+						//cc.log("YESSS");
+						//cc.log(startx,starty,j,k);
+						arrpiec[j-1][k-1]=1;
+					}
+				}
+			}
+			piece.initpositionarr(arrpiec);
 		}
-		arr[0][0]=1;
-		arr[0][1]=1;
-		arr[0][2]=1;
-		piece.initpositionarr(arr);
-		piece2.initpositionarr(arr2);
-		pieceList[0]=piece;
-		pieceList[1]=piece2;
-		var layer2 = new GameMode1Layer(board,pieceList,2);
+		var layer2 = new GameMode1Layer(board,pieceList,noOfPieces);
 		this.addChild(layer2);
 	}
 });
