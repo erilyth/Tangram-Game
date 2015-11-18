@@ -258,7 +258,7 @@ var GameMode1Layer = cc.Layer.extend({
 		// 2. add a menu item with "X" image, which is clicked to quit the program
 		//    you may modify it.
 		// ask the window size
-		var background = new cc.Sprite.create(res.Background_png);
+		var background = new cc.Sprite.create(res.GameBackground_png);
 		background.setPosition(new cc.p(0,0));
 		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
 		background.setAnchorPoint(new cc.p(0,0));
@@ -494,7 +494,7 @@ var GameMode2Layer = cc.Layer.extend({
 		var size=cc.winSize;
 		currentMode=2;
 		levelScore=0;
-		var background = new cc.Sprite.create(res.Background_png);
+		var background = new cc.Sprite.create(res.GameBackground_png);
 		background.setPosition(new cc.p(0,0));
 		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
 		background.setAnchorPoint(new cc.p(0,0));
@@ -732,7 +732,7 @@ var GameMode3Layer = cc.Layer.extend({
 		var size=cc.winSize;
 		levelScore=0;
 		currentMode=3;
-		var background = new cc.Sprite.create(res.Background_png);
+		var background = new cc.Sprite.create(res.GameBackground_png);
 		background.setPosition(new cc.p(0,0));
 		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
 		background.setAnchorPoint(new cc.p(0,0));
@@ -1081,7 +1081,7 @@ var ScoreLayer = cc.Layer.extend({
 		for(temp=0;temp<playerNames.length;temp++){
 			if(playerNames[temp]!=null){
 				var label = new cc.LabelTTF(playerNames[temp]+ " " +playerScores[temp],"Arial");
-				label.setFontSize(10);
+				label.setFontSize(15);
 				label.setPosition(new cc.p(size.width/2,size.height/2-50+start*20));
 				this.addChild(label);
 				start+=1;
@@ -1138,14 +1138,14 @@ var AchievementLayer = cc.Layer.extend({
 				if(list[temp][temp2]!=null){
 					if(state==0){
 						var label = new cc.LabelTTF(names[temp],"Arial");
-						label.setFontSize(10);
-						label.setPosition(new cc.p(size.width/2-300,size.height/2-50+temp*20));
+						label.setFontSize(15);
+						label.setPosition(new cc.p(size.width/2-150,size.height/2-50+temp*20));
 						this.addChild(label);
 						state=1;
 					}
 					var label2 = new cc.LabelTTF(list[temp][temp2],"Arial");
 					label2.setFontSize(10);
-					label2.setPosition(new cc.p(size.width/2-300+(temp2+1)*100,size.height/2-50+temp*20));
+					label2.setPosition(new cc.p(size.width/2-150+(temp2+1)*100,size.height/2-50+temp*20));
 					this.addChild(label2);
 				}
 			}
