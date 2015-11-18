@@ -2,9 +2,9 @@
   "init_cfg": {
     "isLandscape": true,
     "isWindowTop": false,
-    "name": "TangramBlockPuzzle",
-    "width": 960,
-    "height": 640,
+    "name": "TangramGamev2",
+    "width": 800,
+    "height": 480,
     "entry": "main.js",
     "consolePort": 6050,
     "uploadPort": 6060,

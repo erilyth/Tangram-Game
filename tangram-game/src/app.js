@@ -33,6 +33,9 @@ var Piece= cc.Class.extend({
 		this.oldarr=new Array(posarr.length);
 		this.rotatedarr=new Array(posarr.length);
 		this.spriteBlocks=new Array(posarr.length);
+		cc.log("HERE");
+		cc.log(this.pieceNumber);
+		var imageStyle = this.pieceNumber;
 		for(i=0;i<posarr.length;i++){
 			this.oldarr[i]=new Array(posarr.length);
 			this.spriteBlocks[i]= new Array(posarr.length);
@@ -41,7 +44,16 @@ var Piece= cc.Class.extend({
 			for(j=0;j<posarr.length;j++){
 				if(posarr[i][j]==1){
 					this.madeUpCount+=1;
-					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
+					if(imageStyle == 0)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece1_png);
+					if(imageStyle == 1)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece2_png);
+					if(imageStyle == 2)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece3_png);
+					if(imageStyle == 3)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece4_png);
+
+
 					this.positionarr[i][j]=1;
 					this.spriteBlocks[i][j].setPosition(new cc.p(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
@@ -186,15 +198,16 @@ var Board = cc.Class.extend({
 				if(victoryposition[i][j]==1){
 					this.victoryArray[i][j]=1;
 					this.spriteBlocks[i][j]= new cc.Sprite.create(res.PlaceBoard_png);
+					this.spriteBlocks[i][j].setPosition(new cc.p(totalOffsetX+20*i,totalOffsetY+20*j));
+					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);
+					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
 				}
 				else{
 					this.victoryArray[i][j]=0;
-					this.spriteBlocks[i][j]= new cc.Sprite.create(res.Board_png);
+					//this.spriteBlocks[i][j]= new cc.Sprite.create(res.Board_png);
 				}
 				this.positionarr[i][j]=-1;
-				this.spriteBlocks[i][j].setPosition(new cc.p(totalOffsetX+20*i,totalOffsetY+20*j));
-				this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);
-				this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
+				
 			}
 		}
 	},
@@ -237,14 +250,20 @@ var GameMode1Layer = cc.Layer.extend({
 		// 2. add a menu item with "X" image, which is clicked to quit the program
 		//    you may modify it.
 		// ask the window size
-
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 
 		//(0,0) is the bottom left point.
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
-				this.addChild(board.spriteBlocks[i][j]);
+				if(board.spriteBlocks[i][j])
+					this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
+		
 		var sizex=pieceList[0].positionarr.length;
 		var sizey=pieceList[0].positionarr[0].length;
 		for(i=0;i<sizex;i++){
@@ -467,9 +486,15 @@ var GameMode2Layer = cc.Layer.extend({
 		var size=cc.winSize;
 		currentMode=2;
 		levelScore=0;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
-				this.addChild(board.spriteBlocks[i][j]);
+				if(board.spriteBlocks[i][j])
+					this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
 		var sizex=pieceList[0].positionarr.length;
@@ -699,9 +724,15 @@ var GameMode3Layer = cc.Layer.extend({
 		var size=cc.winSize;
 		levelScore=0;
 		currentMode=3;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		for(i=0;i<15;i++){
 			for(j=0;j<15;j++){
-				this.addChild(board.spriteBlocks[i][j]);
+				if(board.spriteBlocks[i][j])
+					this.addChild(board.spriteBlocks[i][j]);
 			}
 		}
 		var sizex=pieceList[0].positionarr.length;
