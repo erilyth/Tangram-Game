@@ -967,11 +967,11 @@ var MenuLayer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size = cc.winSize;
-		var sprite = new cc.Sprite.create(res.Board_png);
-		sprite.setAnchorPoint(new cc.p(0.5,0.5));
-		sprite.setPosition(new cc.p(size.width/2,size.height/2));
-		sprite.setScaleX(0.5);
-		sprite.setScaleY(0.2);
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		var menuItem1 = new cc.MenuItemFont("Play Mode 1", startGameMode1);
 		var menuItem2 = new cc.MenuItemFont("Play Mode 2", startGameMode2);
 		var menuItem3 = new cc.MenuItemFont("Play Mode 3", startGameMode3);
@@ -992,6 +992,11 @@ var LevelLayer = cc.Layer.extend({
 		this._super();
 		cc.log(gameMode);
 		var size = cc.winSize;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		var menuItems = new Array(modeLevels[gameMode-1]);
 		for(i=0;i<modeLevels[gameMode-1];i++){
 			j=i+1;
@@ -1054,6 +1059,11 @@ var ScoreLayer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size = cc.winSize;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		var ls= cc.sys.localStorage;
 		var value;
 		var ls = cc.sys.localStorage;
@@ -1096,6 +1106,11 @@ var AchievementLayer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size = cc.winSize;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		var ls= cc.sys.localStorage;
 		var value;
 		var list = new Array(100);
@@ -1150,6 +1165,11 @@ var WinLayer = cc.Layer.extend({
 		// 1. super init first
 		this._super();
 		var size = cc.winSize;
+		var background = new cc.Sprite.create(res.Background_png);
+		background.setPosition(new cc.p(0,0));
+		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
+		background.setAnchorPoint(new cc.p(0,0));
+		this.addChild(background);
 		/*r sprite = new cc.Sprite.create(res.Board_png);
 		sprite.setAnchorPoint(new new cc.p(0.5,0.5));*/
 		var sprite = new cc.Sprite.create(res.Youwin_png);
