@@ -131,7 +131,8 @@ var Piece= cc.Class.extend({
 		for(i=0;i<this.positionarr.length;i++){
 			for(j=0;j<this.positionarr[i].length;j++){
 				this.oldarr[i][j]=this.positionarr[i][j];
-				this.rotatedarr[i][j]=this.positionarr[2-j][i];
+				cc.log(this.positionarr[i].length-j);
+				this.rotatedarr[i][j]=this.positionarr[this.positionarr[i].length-1-j][i];
 			}
 		}
 		for(i=0;i<this.positionarr.length;i++){
@@ -165,7 +166,14 @@ var Piece= cc.Class.extend({
 		for(i=0;i<this.positionarr.length;i++){
 			for(j=0;j<this.positionarr[i].length;j++){
 				if(this.positionarr[i][j]==1){
-					this.spriteBlocks[i][j]=  new cc.Sprite.create(res.HelloWorld_png);
+					if(this.pieceNumber==0)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece1_png);
+					if(this.pieceNumber==1)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece2_png);
+					if(this.pieceNumber==2)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece3_png);
+					if(this.pieceNumber==3)
+						this.spriteBlocks[i][j]=  new cc.Sprite.create(res.Piece4_png);
 					this.spriteBlocks[i][j].setPosition(new cc.Point(totalOffsetX+this.blockWidth*(i+this.basePositionX),totalOffsetY+this.blockWidth*(j+this.basePositionY)));
 					this.spriteBlocks[i][j].setScale(20/this.spriteBlocks[i][j].getContentSize().width,20/this.spriteBlocks[i][j].getContentSize().height);	
 					this.spriteBlocks[i][j].setAnchorPoint(new cc.p(0,0));
@@ -1354,6 +1362,17 @@ var GameMode1Scene1 = cc.Scene.extend({
 						statis=1;;
 					}
 				}
+			}
+			for(i=1;i<=numofpieces;i++){
+				var cnts=0;
+				for(j=1;j<=4;j++){
+					for(k=1;k<=3;k++){
+						if(arr[j][k]==i)
+							cnts++;
+					}
+				}
+				if(cnts==1)
+					statis=0;
 			}
 			if(statis==0)
 				state=0;
