@@ -1341,6 +1341,9 @@ var GameMode1Scene1 = cc.Scene.extend({
 		var status=0;
 		var i,j,k,a,b,c,n,m;
 		var state=0;
+		//This is where the pieces are randomly generated. We use "Cellular Automata" to do this. First we randomly assign values
+		//to each of the array elements and then we iterate over them a few times making them similar to their neighbours, so that after a few iterations
+		//we get groups of adjacent blocks which are alike which we treat as single pieces.
 		while(state==0){
 			for(i=1;i<=4;i++){
 				for(j=1;j<=3;j++){
