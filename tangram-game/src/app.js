@@ -972,12 +972,12 @@ var MenuLayer = cc.Layer.extend({
 		background.setScale(size.width/background.getContentSize().width, size.height/background.getContentSize().height);
 		background.setAnchorPoint(new cc.p(0,0));
 		this.addChild(background);
-		var menuItem1 = new cc.MenuItemFont("Play Mode 1", startGameMode1);
-		var menuItem2 = new cc.MenuItemFont("Play Mode 2", startGameMode2);
-		var menuItem3 = new cc.MenuItemFont("Play Mode 3", startGameMode3);
-		var menuItem4 = new cc.MenuItemFont("View Scores", viewScores);
-		var menuItem5 = new cc.MenuItemFont("View Achievements", viewAchievements);
-		var menuItem6 = new cc.MenuItemFont("Quit", quitGame);
+		var menuItem1 = new cc.MenuItemImage(res.Play_m1_png, res.Play_m1_clicked_png, startGameMode1);
+		var menuItem2 = new cc.MenuItemImage(res.Play_m2_png, res.Play_m2_clicked_png, startGameMode2);
+		var menuItem3 = new cc.MenuItemImage(res.Play_m3_png, res.Play_m3_clicked_png, startGameMode3);
+		var menuItem4 = new cc.MenuItemImage(res.ViewScores_png, res.ViewScores_clicked_png, viewScores);
+		var menuItem5 = new cc.MenuItemImage(res.ViewAchievements_png, res.ViewAchievements_clicked_png, viewAchievements);
+		var menuItem6 = new cc.MenuItemImage(res.Quit_png, res.Quit_clicked_png, quitGame);
 		var menu = new cc.Menu(menuItem1,menuItem2,menuItem3,menuItem4,menuItem5,menuItem6);
 		menu.alignItemsVerticallyWithPadding(20);
 		this.addChild(menu);
