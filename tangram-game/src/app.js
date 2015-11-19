@@ -476,7 +476,7 @@ var GameMode1Layer = cc.Layer.extend({
 
 					}, this);
 		}
-		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menuItem = new cc.MenuItemImage(res.Back_png, res.Back_clicked_png, goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
 		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
@@ -714,7 +714,7 @@ var GameMode2Layer = cc.Layer.extend({
 
 					}, this);
 		}
-		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menuItem = new cc.MenuItemImage(res.Back_png, res.Back_clicked_png, goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
 		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
@@ -952,7 +952,7 @@ var GameMode3Layer = cc.Layer.extend({
 
 					}, this);
 		}
-		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menuItem = new cc.MenuItemImage(res.Back_png, res.Back_clicked_png, goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
 		menu.setPosition(new cc.p(size.width/2,size.height/2-180))
@@ -1087,7 +1087,7 @@ var ScoreLayer = cc.Layer.extend({
 				start+=1;
 			}
 		}
-		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menuItem = new cc.MenuItemImage(res.Back_png, res.Back_clicked_png, goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
 		menu.setPosition(new cc.p(size.width/2,size.height/2-170))
@@ -1150,7 +1150,7 @@ var AchievementLayer = cc.Layer.extend({
 				}
 			}
 		}
-		var menuItem = new cc.MenuItemFont("Back", goToMenu);
+		var menuItem = new cc.MenuItemImage(res.Back_png, res.Back_clicked_png, goToMenu);
 		var menu = new cc.Menu(menuItem);
 		menu.alignItemsVerticallyWithPadding(50);
 		menu.setPosition(new cc.p(size.width/2,size.height/2-170))
