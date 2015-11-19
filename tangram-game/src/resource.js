@@ -24,7 +24,9 @@ var res = {
     Back_png: "res/back.png",
     Back_clicked_png: "res/back_clicked.png",
     Quit_png: "res/quit.png",
-    Quit_clicked_png: "res/quit_clicked.png"
+    Quit_clicked_png: "res/quit_clicked.png",
+    Level_png: "res/lvl.png",
+    Level_clicked_png: "res/lvl_clicked.png"
 };
 
 var g_resources = [];

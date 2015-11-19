@@ -1000,7 +1000,8 @@ var LevelLayer = cc.Layer.extend({
 		var menuItems = new Array(modeLevels[gameMode-1]);
 		for(i=0;i<modeLevels[gameMode-1];i++){
 			j=i+1;
-			menuItems[i] = new cc.MenuItemFont("Level "+j.toString(), 
+			menuItems[i] = new cc.MenuItemImage(res.Level_png, res.Level_clicked_png,
+//			menuItems[i] = new cc.MenuItemFont("Level "+j.toString(), // level number maker
 				function() {  
 					if(gameMode==1){
 						if(j==1)
