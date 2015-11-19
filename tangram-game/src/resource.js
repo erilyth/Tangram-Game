@@ -6,7 +6,7 @@ var res = {
     CloseSelected_png : "res/CloseSelected.png",
     Youwin_png : "res/You-Win.png",	
     Piece1_png: "res/simpleblock4.png",
-    Piece2_png: "res/piece2.png",
+    Piece2_png: "res/simpleblock1.png",
     Piece3_png: "res/simpleblock2.png",
     Piece4_png: "res/simpleblock3.png",
     Background_png: "res/background.png",
