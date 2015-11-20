@@ -1,0 +1,8 @@
+Meet: 15
+Date: November 2nd
+Discussion:
+	1.Split out tasks on development.
+Action Points:
+	1.Start working on the assigned task.
+Members: Raghu Ram, Vishal Batchu, Syamantak Das, Nikhil Tadigoppula
+Duration: 1 hr
