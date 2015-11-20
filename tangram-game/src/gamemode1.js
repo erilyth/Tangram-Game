@@ -248,7 +248,7 @@ var GameMode1Scene1 = cc.Scene.extend({
 		totalOffsetY=size.height/2-150;
 
 		var temparr = new Array(15);
-		var numofpieces=2;
+		var numofpieces=3;
 		var arr = new Array(15);
 		var kk;
 		for(kk=0;kk<15;kk++){
@@ -309,6 +309,16 @@ var GameMode1Scene1 = cc.Scene.extend({
 					}
 				}
 			}
+			var piecefound = new Array(4);
+			for(j=1;j<=4;j++){
+				piecefound[j]=0;
+			}
+			for(j=1;j<=4;j++){
+				for(k=1;k<=3;k++){
+					piecefound[arr[j][k]]+=1;
+				}
+			}
+			cc.log(piecefound);
 			for(i=1;i<=numofpieces;i++){
 				var cnts=0;
 				for(j=1;j<=4;j++){
@@ -319,6 +329,12 @@ var GameMode1Scene1 = cc.Scene.extend({
 				}
 				if(cnts==1)
 					statis=0;
+			}
+			for(i=1;i<=numofpieces;i++){
+				if(piecefound[i]==0){
+					statis=0;
+					cc.log("DSAD");
+				}
 			}
 			if(statis==0)
 				state=0;
@@ -337,10 +353,20 @@ var GameMode1Scene1 = cc.Scene.extend({
 		var pieceList = new Array(5);
 		var noOfPieces=numofpieces;
 		for(i=1;i<=noOfPieces;i++){
-			//var x1=0;
-			//var x2=0;
-			var x1=Math.floor(Math.random()*10)%(5)+((i-1)*7);
-			var y1=Math.floor(Math.random()*10)%(5)+((i-1)*7);
+			var x1=0;
+			var x2=0;
+			if(i==0){
+				x1=Math.floor(Math.random()*10)%(3);
+				y1=Math.floor(Math.random()*10)%(3);
+			}
+			if(i==1){
+				x1=Math.floor(Math.random()*10)%(3)+6;
+				y1=Math.floor(Math.random()*10)%(3)+6;
+			}
+			if(i==2){
+				x1=Math.floor(Math.random()*10)%(3)+3;
+				y1=Math.floor(Math.random()*10)%(3)+3;
+			}
 			var piece = new Piece(x1,y1,i-1);
 			board.belongPieces[i-1]=piece;
 			pieceList[i-1]=piece;
