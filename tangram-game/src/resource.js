@@ -11,12 +11,12 @@ var res = {
     Piece4_png: "res/simpleblock3.png",
     Background_png: "res/background.png",
     GameBackground_png: "res/gamebackground.png",
-    Play_m1_png: "res/play_m1.png", //#ffdc77, #644c00
-    Play_m1_clicked_png: "res/play_m1_clicked.png",
-    Play_m2_png: "res/play_m2.png", //#ffdc77, #644c00
-    Play_m2_clicked_png: "res/play_m2_clicked.png",
-    Play_m3_png: "res/play_m3.png", //#ffdc77, #644c00
-    Play_m3_clicked_png: "res/play_m3_clicked.png",
+    Play_m1_png: "res/classic.png", //#ffdc77, #644c00
+    Play_m1_clicked_png: "res/classic_clicked.png",
+    Play_m2_png: "res/trick.png", //#ffdc77, #644c00
+    Play_m2_clicked_png: "res/trick_clicked.png",
+    Play_m3_png: "res/double.png", //#ffdc77, #644c00
+    Play_m3_clicked_png: "res/double_clicked.png",
     ViewScores_png: "res/view_scores.png",
     ViewScores_clicked_png: "res/view_scores_clicked.png",
     ViewAchievements_png: "res/view_achievements.png",
