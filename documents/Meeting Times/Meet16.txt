@@ -1,0 +1,9 @@
+Meet: 16
+Date: November 10th
+Discussion:
+	1.Talk about the bugs encountered and their potential fixes.
+Action Points:
+	1.Apply potential fixes.
+    2.Fix classes/function errors on android.
+Members: Raghu Ram, Vishal Batchu, Syamantak Das, Nikhil Tadigoppula, Client.
+Duration: 2 hr

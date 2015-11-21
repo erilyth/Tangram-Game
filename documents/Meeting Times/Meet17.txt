@@ -1,0 +1,11 @@
+Meet: 17
+Date: November 15th
+Discussion:
+	1.Final testing of the functionality of the game and minor bug fixes.
+    2.Decide on UI and creation of images required for the game.
+Action Points:
+	1.Start making/designing the images required for the game.
+    2.Design the buttons that will be used in the game.
+    3.Implement/Add the UI to the game.
+Members: Raghu Ram, Vishal Batchu, Syamantak Das, Nikhil Tadigoppula.
+Duration: 1.5 hr
