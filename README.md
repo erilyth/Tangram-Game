@@ -5,7 +5,9 @@ A variant of the block puzzle game for android and the web. It has 4 modes where
 The game is entirely built using Cocos2d-js. 
 
 ## Gameplay
-![](gameplay.gif) 
+![](gameplay.gif)
+
+* (The quality of the gif had to be reduced to reduce its size)
 
 ## Using the game
 You can run it by downloading "tangram-game" folder from this repo and then using the Cocos code IDE or the terminal, launch the app on
